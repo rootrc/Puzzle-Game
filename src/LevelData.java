@@ -82,6 +82,9 @@ final class LevelData {
             case 23:
                 Level23();
                 break;
+            case 24:
+                Level24();
+                break;
         }
         Game.level.image = Images.levels[Game.gameState - 1];
         Game.level.adjustX = (1024 - Game.level.image.getWidth(null)) / 2 - 16;
@@ -298,5 +301,14 @@ final class LevelData {
         Game.level.transmitters = new Transmitter [] {new Transmitter (new int [] {12, 4}, "S", 'B')};
         Game.level.receivers = new Receiver [] {new Receiver (new int [] {3, 3}, "W", 'B', 0), new Receiver (new int [] {16, 9}, "E", 'B', 1), new Receiver (new int [] {5, 4}, "S", 'B', 2), new Receiver (new int [] {5, 6}, "N", 'B', 2),  new Receiver (new int [] {16, 13}, "E", 'B', 3)};
         Game.level.doors = new Door [] {new Door(new int [] {2, 2}, 0, 'S', 0), new Door(new int [] {10, 6}, 0, 'N', 1), new Door(new int [] {4, 5}, 0, 'E', 2), new Door(new int [] {14, 10}, 0, 'E', 3)};
+    }
+    static void Level24 () {
+        Game.level.grid = new int [][] {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 0, 0, 7, 0, 0, 0, 9, 0, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 1}, {1, 0, 0, 8, 0, 2, 0, 0, 0, 0, 1, 1, 9, 1, 1}, {1, 1, 0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 4, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 1, 9, 9, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 3, 0, 0, 2, 0, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 2, 0, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 0, 6, 0, 1, 1, 1, 1}, {1, 1, 0, 6, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+        Game.level.player = new Player (new int [] {8, 8});
+        Game.level.boxes = new Box [] {new Box (new int [] {7, 2}), new Box (new int [] {3, 4}), new Box (new int [] {9, 10}), new Box (new int [] {3, 11})};
+        Game.level.power = new boolean [] {true, false, false, true};
+        Game.level.transmitters = new Transmitter [] {new Transmitter (new int [] {10, 10}, "W", 'B'), new Transmitter (new int [] {2, 13}, "N", 'R')};
+        Game.level.receivers = new Receiver [] {new Receiver (new int [] {9, 1}, "N", 'B', 0), new Receiver (new int [] {2, 2}, "N", 'R', 1), new Receiver (new int [] {12, 9}, "E", 'R', 2), new Receiver (new int [] {6, 7}, "W", 'B', 3)};
+        Game.level.doors = new Door [] {new Door(new int [] {5, 2}, 0, 'N', 0), new Door(new int [] {5, 3}, 0, 'S', 0), new Door(new int [] {12, 4}, 1, 'E', 0), new Door(new int [] {2, 7}, 0, 'W', 1), new Door(new int [] {3, 7}, 0, 'E', 1), new Door(new int [] {11, 2}, 0, 'N', 2), new Door(new int [] {11, 3}, 0, 'S', 2), new Door(new int [] {5, 8}, 0, 'N', 3)};
     }
 }   
