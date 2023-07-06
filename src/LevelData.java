@@ -76,6 +76,9 @@ final class LevelData {
             case 21:
                 Level21();
                 break;
+            case 22:
+                Level22();
+                break;
         }
         Game.level.image = Images.levels[Game.gameState - 1];
         Game.level.adjustX = (1024 - Game.level.image.getWidth(null)) / 2 - 16;
@@ -274,5 +277,14 @@ final class LevelData {
         Game.level.transmitters = new Transmitter [] {new Transmitter (new int [] {5, 6}, "SE", 'B'), new Transmitter (new int [] {2, 15}, "E", 'R')};
         Game.level.receivers = new Receiver [] {new Receiver (new int [] {12, 1}, "E", 'R', 0), new Receiver (new int [] {12, 11}, "E", 'B', 1), new Receiver (new int [] {5, 14}, "W", 'B', 2)};
         Game.level.doors = new Door [] {new Door(new int [] {13, 3}, 0, 'N', 0), new Door(new int [] {13, 10}, 0, 'S', 1), new Door(new int [] {4, 15}, 0, 'N', 2)};
+    }
+    static void Level22 () {
+        Game.level.grid = new int [][] {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 9, 0, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 2, 0, 0, 1, 1, 1}, {1, 0, 0, 0, 0, 2, 0, 0, 1, 1, 1}, {1, 0, 0, 6, 0, 2, 0, 6, 0, 0, 1}, {1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1}, {1, 0, 0, 3, 0, 2, 0, 0, 1, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1}, {1, 1, 1, 4, 9, 0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+        Game.level.player = new Player (new int [] {3, 6});
+        Game.level.boxes = new Box [] {new Box (new int [] {3, 4}), new Box (new int [] {7, 4})};
+        Game.level.power = new boolean [] {false, false};
+        Game.level.transmitters = new Transmitter [] {new Transmitter (new int [] {1, 3}, "E", 'B'), new Transmitter (new int [] {9, 3}, "SW", 'R')};
+        Game.level.receivers = new Receiver [] {new Receiver (new int [] {1, 6}, "W", 'B', 0), new Receiver (new int [] {4, 7}, "S", 'R', 1)};
+        Game.level.doors = new Door [] {new Door(new int [] {5, 1}, 0, 'S', 0), new Door(new int [] {4, 9}, 0, 'N', 1)};
     }
 }   

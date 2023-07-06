@@ -33,7 +33,7 @@ class Player extends Object {
         if (this.isMove() && this.canMove()) {
             int temp = getTileValue(this.movementLocation());
             if (isWin(temp)) {
-                if (Game.gameState < 21) {
+                if (Game.gameState < 22) {
                 Game.gameState ++;
                 Game.loaded = false;
                 LevelData.setUp();
