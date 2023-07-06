@@ -1,5 +1,5 @@
 import java.awt.Color;
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Game {  
     static Level level;
