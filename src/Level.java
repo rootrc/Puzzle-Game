@@ -128,25 +128,25 @@ class Level {
     }
     void keyReleased(KeyEvent e) {
         int key = e.getKeyCode();
-        if (key == KeyEvent.VK_W) {
+        if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
             this.player.moving = false;
             if (this.player.nextDirection == 'w') {
                 this.player.nextDirection = '_';
             }
         }
-        if (key == KeyEvent.VK_A) {
+        if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
             this.player.moving = false;
             if (this.player.nextDirection == 'a') {
                 this.player.nextDirection = '_';
             }
         }
-        if (key == KeyEvent.VK_S) {
+        if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
             this.player.moving = false;
             if (this.player.nextDirection == 's') {
                 this.player.nextDirection = '_';
             }            
         }
-        if (key == KeyEvent.VK_D) {
+        if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
             this.player.moving = false;
             if (this.player.nextDirection == 'd') {
                 this.player.nextDirection = '_';
