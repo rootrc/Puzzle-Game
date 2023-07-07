@@ -1,7 +1,7 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.awt.Font;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.awt.event.KeyEvent;
@@ -11,7 +11,10 @@ import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
-class Level {  
+class Level {
+    int num;
+    String name;
+
     int [][] grid;
     Player player;
     Box [] boxes;
@@ -165,57 +168,65 @@ class Level {
     }
     void paint(Graphics2D g2d) {
         g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(808, 12, 88, 88);
-            g2d.drawImage(Images.restartIcon, 820, 24, Game.panel);
-            g2d.drawRect(912, 12, 88, 88);
-            g2d.drawImage(Images.menuIcon, 924, 24, Game.panel);
-            g2d.drawImage(Game.level.image, Game.level.adjustX, Game.level.adjustY, Game.panel);
-            for (WeightedButton weightedButton: Game.level.weightedButtons) {
-                g2d.drawImage(weightedButton.image, weightedButton.screenLocation[0] + Game.level.adjustX, weightedButton.screenLocation[1] + Game.level.adjustY, Game.panel);
-            }
-            for (Button button: Game.level.buttons) {
-                g2d.drawImage(button.image, button.screenLocation[0] + Game.level.adjustX, button.screenLocation[1] + Game.level.adjustY, Game.panel);
-            }
-            g2d.setStroke(new BasicStroke(4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            HashSet <List<Integer>> blueSet = new HashSet <>();
-            HashSet <List<Integer>> redSet = new HashSet <>();
-            for (ScreenLaser screenLaser: Game.level.screenLasers) {
-                if (screenLaser.colour == 'B') {
-                    if (redSet.contains(screenLaser.startAndEnd) || redSet.contains(screenLaser.endAndStart)) {
-                        g2d.setColor(Color.MAGENTA);
-                    } else {
-                        g2d.setColor(Color.BLUE);
-                    }
-                    blueSet.add(screenLaser.startAndEnd);
-                    blueSet.add(screenLaser.endAndStart);
-                } else if (screenLaser.colour == 'R') {
-                    if (blueSet.contains(screenLaser.startAndEnd) || blueSet.contains(screenLaser.endAndStart)) {
-                        g2d.setColor(Color.MAGENTA);
-                    } else {
-                        g2d.setColor(Color.RED);
-                    }
-                    redSet.add(screenLaser.startAndEnd);
-                    redSet.add(screenLaser.endAndStart);
-                }
-                g2d.draw(screenLaser.line);
-            }
-            Game.level.screenLasers.clear();
-            for (Receiver receiver: Game.level.receivers) {
-                if (receiver.isOn) {
-                    receiver.image = Images.receiversOn[receiver.directionImage];
+        g2d.setColor(Color.BLACK);
+        g2d.setFont(new Font("TimesRoman", Font.BOLD, 100));
+        g2d.drawString(Integer.toString(this.num), 24, 92);
+        g2d.setFont(new Font("TimesRoman", Font.PLAIN, 64));
+        if (this.num < 10) {
+            g2d.drawString(this.name, 96, 84);
+        } else {
+            g2d.drawString(this.name, 152, 84);
+        }
+        g2d.drawRect(808, 12, 88, 88);
+        g2d.drawImage(Images.restartIcon, 820, 24, Game.panel);
+        g2d.drawRect(912, 12, 88, 88);
+        g2d.drawImage(Images.menuIcon, 924, 24, Game.panel);
+        g2d.drawImage(Game.level.image, Game.level.adjustX, Game.level.adjustY, Game.panel);
+        for (WeightedButton weightedButton: Game.level.weightedButtons) {
+            g2d.drawImage(weightedButton.image, weightedButton.screenLocation[0] + Game.level.adjustX, weightedButton.screenLocation[1] + Game.level.adjustY, Game.panel);
+        }
+        for (Button button: Game.level.buttons) {
+            g2d.drawImage(button.image, button.screenLocation[0] + Game.level.adjustX, button.screenLocation[1] + Game.level.adjustY, Game.panel);
+        }
+        g2d.setStroke(new BasicStroke(4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+        HashSet <List<Integer>> blueSet = new HashSet <>();
+        HashSet <List<Integer>> redSet = new HashSet <>();
+        for (ScreenLaser screenLaser: Game.level.screenLasers) {
+            if (screenLaser.colour == 'B') {
+                if (redSet.contains(screenLaser.startAndEnd) || redSet.contains(screenLaser.endAndStart)) {
+                    g2d.setColor(Color.MAGENTA);
                 } else {
-                    receiver.image = Images.receiversOff[receiver.directionImage];
+                    g2d.setColor(Color.BLUE);
                 }
-                g2d.drawImage(receiver.image, receiver.screenLocation[0] + Game.level.adjustX, receiver.screenLocation[1] + Game.level.adjustY, Game.panel);
-                receiver.isOn = false;
+                blueSet.add(screenLaser.startAndEnd);
+                blueSet.add(screenLaser.endAndStart);
+            } else if (screenLaser.colour == 'R') {
+                if (blueSet.contains(screenLaser.startAndEnd) || blueSet.contains(screenLaser.endAndStart)) {
+                    g2d.setColor(Color.MAGENTA);
+                } else {
+                    g2d.setColor(Color.RED);
+                }
+                redSet.add(screenLaser.startAndEnd);
+                redSet.add(screenLaser.endAndStart);
             }
-            g2d.drawImage(Game.level.player.image, Game.level.player.screenLocation[0] + Game.level.adjustX, Game.level.player.screenLocation[1] + Game.level.adjustY, Game.panel);
-            for (Box box: Game.level.boxes) {
-                g2d.drawImage(box.image, box.screenLocation[0] + Game.level.adjustX, box.screenLocation[1] + Game.level.adjustY, Game.panel);
+            g2d.draw(screenLaser.line);
+        }
+        Game.level.screenLasers.clear();
+        for (Receiver receiver: Game.level.receivers) {
+            if (receiver.isOn) {
+                receiver.image = Images.receiversOn[receiver.directionImage];
+            } else {
+                receiver.image = Images.receiversOff[receiver.directionImage];
             }
-            for (Door door: Game.level.doors) {
-                g2d.drawImage(door.image, door.screenLocation[0] + Game.level.adjustX, door.screenLocation[1] + Game.level.adjustY, Game.panel);
-            }
+            g2d.drawImage(receiver.image, receiver.screenLocation[0] + Game.level.adjustX, receiver.screenLocation[1] + Game.level.adjustY, Game.panel);
+            receiver.isOn = false;
+        }
+        g2d.drawImage(Game.level.player.image, Game.level.player.screenLocation[0] + Game.level.adjustX, Game.level.player.screenLocation[1] + Game.level.adjustY, Game.panel);
+        for (Box box: Game.level.boxes) {
+            g2d.drawImage(box.image, box.screenLocation[0] + Game.level.adjustX, box.screenLocation[1] + Game.level.adjustY, Game.panel);
+        }
+        for (Door door: Game.level.doors) {
+            g2d.drawImage(door.image, door.screenLocation[0] + Game.level.adjustX, door.screenLocation[1] + Game.level.adjustY, Game.panel);
+        }
     }
 }

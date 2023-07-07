@@ -12,78 +12,103 @@ final class LevelData {
     */
     static void setUp() {
         levelClear();
-        switch (Game.gameState) {
+        Game.level.num = Game.gameState;
+        switch (Game.level.num) {
             case 1:
                 Level1();
+                Game.level.name = "WASD";
                 break;
             case 2:
                 Level2();
+                Game.level.name = "Weighted Button";
                 break;
             case 3:
                 Level3();
+                Game.level.name = "Box";
                 break;
             case 4:
                 Level4();
+                Game.level.name = "Button";
                 break;
             case 5:
                 Level5();
+                Game.level.name = "More Boxes";
                 break;
             case 6:
                 Level6();
+                Game.level.name = "Big Decisions";
                 break;
             case 7:
                 Level7();
+                Game.level.name = "Laser";
                 break;
             case 8:
                 Level8();
+                Game.level.name = "Connecter";
                 break;
             case 9:
                 Level9();
+                Game.level.name = "Labyrinth";
                 break;
             case 10:
                 Level10();
+                Game.level.name = "Extraction";
                 break;
             case 11:
                 Level11();
+                Game.level.name = "Tripwire";
                 break;
             case 12:
                 Level12();
+                Game.level.name = "Paradox";
                 break;
             case 13:
                 Level13();
+                Game.level.name = "Rabbit";
                 break;
             case 14:
                 Level14();
+                Game.level.name = "Warehouse";  
                 break;
             case 15:
                 Level15();
+                Game.level.name = "One at a Time";
                 break;
             case 16:
                 Level16();
+                Game.level.name = "Locked";
                 break;
             case 17:
                 Level17();
+                Game.level.name = "Deception";
                 break;
             case 18:
                 Level18();
+                Game.level.name = "Laser Trivia";
                 break;
             case 19:
                 Level19();
+                Game.level.name = "Brute Force";
                 break; 
             case 20:
                 Level20();
+                Game.level.name = "Sight";
                 break;
             case 21:
                 Level21();
+                Game.level.name = "Obseratory";
                 break;
             case 22:
                 Level22();
+                Game.level.name = "Zig Zag";
                 break;
             case 23:
                 Level23();
+                Game.level.name = "Through Glass";
                 break;
             case 24:
                 Level24();
+                Game.level.name = "Inelegance";
                 break;
         }
         Game.level.image = Images.levels[Game.gameState - 1];
