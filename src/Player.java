@@ -33,13 +33,7 @@ class Player extends Object {
         if (this.isMove() && this.canMove()) {
             int temp = getTileValue(this.movementLocation());
             if (isWin(temp)) {
-                if (Game.gameState < 24) {
-                Game.gameState ++;
-                Game.loaded = false;
-                LevelData.setUp();
-                } else {
-                    Game.gameState = 0; 
-                }
+                Game.level.win = true;
             } else if (isBox(temp)) {
                     for (Box box: Game.level.boxes) {
                         if (Arrays.equals(box.location, this.movementLocation())) {

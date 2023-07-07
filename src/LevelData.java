@@ -118,6 +118,7 @@ final class LevelData {
         
     }
     static void levelClear() {
+        Game.level.win = false;
         Game.level.boxes = new Box [] {};
         Game.level.power = new boolean [] {};
         Game.level.weightedButtons = new WeightedButton [] {};

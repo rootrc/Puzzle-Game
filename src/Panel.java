@@ -63,8 +63,8 @@ class Panel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (isLevel() && Game.loaded) {
-            Game.level.player.movement();
-            if (Game.level.hasPower()) {
+            if (!Game.level.win) {
+                Game.level.player.movement();
                 Game.level.updatePower();
             }
         }
