@@ -244,6 +244,7 @@ class Level {
                 g2d.drawImage(door.image, door.screenLocation[0] + Game.level.adjustX, door.screenLocation[1] + Game.level.adjustY, Game.panel);
             }
         } else {
+            Game.level.screenLasers.clear();
             g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             g2d.setColor(Color.BLACK);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 100));
