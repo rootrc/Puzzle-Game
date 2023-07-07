@@ -13,9 +13,9 @@ class Object {
         return tileValue == 1;
     }
     static Boolean isBox (int tileValue) {
-        return tileValue == 3 || (5 <= tileValue && tileValue % 10 <= 8);
+        return tileValue == 3 || (5 <= tileValue && tileValue <= 8);
     }
-    static boolean isBlocking(int tileValue, char colour) {
+    static boolean isBlocking (int tileValue, char colour) {
         if (colour == 'B') {
             return (tileValue == 3 || tileValue == 5 || tileValue == 8);
         }
@@ -24,8 +24,11 @@ class Object {
         }
         return false;
     }
-    static boolean isConnecter(int tileValue) {
+    static boolean isConnecter (int tileValue) {
         return (6 <= tileValue && tileValue % 10 <= 8);
+    }
+    static boolean isStar (int tileValue) {
+        return tileValue == 10;
     }
     int getTileValue () {
         return Game.level.grid [this.location[1]][this.location[0]];    

@@ -1,6 +1,7 @@
 import java.awt.event.MouseEvent;
 
 class LevelMenu {
+    static boolean [] starsCollected = new boolean [] {false};
     static void mouseClicked(MouseEvent e) {
         if (Game.gameState == 0) {
             for (int x = 0; x < 6; x ++) {

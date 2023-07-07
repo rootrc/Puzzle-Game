@@ -34,6 +34,17 @@ class Player extends Object {
             int temp = getTileValue(this.movementLocation());
             if (isWin(temp)) {
                 Game.level.win = true;
+                if (Game.level.star != null) {
+                    if (Game.level.star.collected) {
+                        switch (Game.level.num) {
+                            case 11:
+                                LevelMenu.starsCollected[0] = true;
+                        }
+                    }
+                }
+            } else if (isStar(temp)) {
+                Game.level.star.collected = true;
+                this.move();
             } else if (isBox(temp)) {
                     for (Box box: Game.level.boxes) {
                         if (Arrays.equals(box.location, this.movementLocation())) {
