@@ -39,6 +39,10 @@ class Player extends Object {
                 switch (Game.level.num) {
                     case 11:
                         LevelMenu.starsCollected[0] = true;
+                        break;
+                    case 21:
+                        LevelMenu.starsCollected[1] = true;
+                        break;
                 }
                 this.move();
             } else if (isBox(temp)) {
