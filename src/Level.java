@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.awt.Font;
 import java.util.Queue;
 import java.util.LinkedList;
 import java.awt.event.KeyEvent;
@@ -10,6 +9,7 @@ import java.awt.Image;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 
 class Level {
     int num;
@@ -31,6 +31,12 @@ class Level {
     Image image;
     int adjustX;
     int adjustY;
+    void process() {
+        if (!this.win) {
+            this.player.movement();
+            this.updatePower();
+        }
+    }
     void updatePower() {
         this.resetPower();
         this.checkWeightedButton();
@@ -39,37 +45,27 @@ class Level {
         this.updateDoors();
     }
     void resetPower() {
-        for (int j = 0; j < this.power.length; j++) {
-            this.power [j] = false;
-        }
+        this.power = new boolean[this.power.length];
     }
     void checkWeightedButton() {
-        if (this.weightedButtons != null) {
-            for (WeightedButton weightedButton: this.weightedButtons) {
-                weightedButton.updatePower();
-            }
+        for (WeightedButton weightedButton: this.weightedButtons) {
+            weightedButton.updatePower();
         }
     }
     void checkButtons() {
-        if (this.buttons != null) {
-            for (Button button: this.buttons) {
-                button.updatePower();
-            }
+        for (Button button: this.buttons) {
+            button.updatePower();
         }
     }
     void updateDoors () {
-        if (this.doors != null) {
-            for (Door door: this.doors) {
-                door.update();
-            }
+        for (Door door: this.doors) {
+            door.update();
         }
     }
     void checkLasers () {
-        if (this.transmitters != null) {
-            Queue <Laser> lasers = new LinkedList<>();
-            updateTransmitterLasers(lasers);
-            updateConnecterLasers(lasers);
-        }
+        Queue <Laser> lasers = new LinkedList<>();
+        updateTransmitterLasers(lasers);
+        updateConnecterLasers(lasers);
     }
     void updateTransmitterLasers(Queue <Laser> lasers) {
         for (Transmitter transmitter: this.transmitters) {
@@ -97,7 +93,7 @@ class Level {
     void keyPressed(KeyEvent e) {
         if (!this.win) {
             int key = e.getKeyCode();
-            if (key == KeyEvent.VK_W) {
+            if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
                 if (this.player.location [0] * 32 + 32 == this.player.screenLocation [0]) {
                     this.player.direction = 'w';
                     this.player.moving = true;
@@ -105,7 +101,7 @@ class Level {
                     this.player.nextDirection = 'w';
                 }
             }
-            if (key == KeyEvent.VK_A) {
+            if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
                 if (this.player.location [1] * 32 + 32 == this.player.screenLocation [1]) {
                     this.player.direction = 'a';
                     this.player.moving = true;
@@ -113,7 +109,7 @@ class Level {
                     this.player.nextDirection = 'a';
                 }
             }
-            if (key == KeyEvent.VK_S) {
+            if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
                 if (this.player.location [0] * 32 + 32 == this.player.screenLocation [0]) {
                     this.player.direction = 's';
                     this.player.moving = true;
@@ -121,7 +117,7 @@ class Level {
                     this.player.nextDirection = 's';
                 }
             }
-            if (key == KeyEvent.VK_D) {
+            if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
                 if (this.player.location [1] * 32 + 32 == this.player.screenLocation [1]) {
                     this.player.direction = 'd';
                     this.player.moving = true;     
@@ -224,14 +220,14 @@ class Level {
             g2d.drawImage(Images.menuIcon, 924, 24, Game.panel);
             g2d.drawImage(this.image, this.adjustX, this.adjustY, Game.panel);
             for (WeightedButton weightedButton: this.weightedButtons) {
-                g2d.drawImage(weightedButton.image, weightedButton.screenLocation[0] + this.adjustX, weightedButton.screenLocation[1] + this.adjustY, Game.panel);
+                weightedButton.draw(g2d);
             }
             for (Button button: this.buttons) {
-                g2d.drawImage(button.image, button.screenLocation[0] + this.adjustX, button.screenLocation[1] + this.adjustY, Game.panel);
+                button.draw(g2d);
             }
             if (this.star != null) {
                 if (!this.star.collected) {
-                    g2d.drawImage(this.star.image, this.star.screenLocation[0] + this.adjustX, this.star.screenLocation[1] + this.adjustY, Game.panel);
+                    this.star.draw(g2d);
                 }
             }
             g2d.setStroke(new BasicStroke(4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
@@ -264,15 +260,15 @@ class Level {
                 } else {
                     receiver.image = Images.receiversOff[receiver.directionImage];
                 }
-                g2d.drawImage(receiver.image, receiver.screenLocation[0] + this.adjustX, receiver.screenLocation[1] + this.adjustY, Game.panel);
+                receiver.draw(g2d);
                 receiver.isOn = false;
             }
-            g2d.drawImage(this.player.image, this.player.screenLocation[0] + this.adjustX, this.player.screenLocation[1] + this.adjustY, Game.panel);
+            player.draw(g2d);
             for (Box box: this.boxes) {
-                g2d.drawImage(box.image, box.screenLocation[0] + this.adjustX, box.screenLocation[1] + this.adjustY, Game.panel);
+                box.draw(g2d);
             }
             for (Door door: this.doors) {
-                g2d.drawImage(door.image, door.screenLocation[0] + this.adjustX, door.screenLocation[1] + this.adjustY, Game.panel);
+                door.draw(g2d);
             }
         } else {
             this.screenLasers.clear();

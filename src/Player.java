@@ -1,20 +1,18 @@
 import java.util.Arrays;
 import java.awt.Image;
 
-class Player extends Object {
+class Player extends Box {
     final int tileValue = 3;
-    final Image image = Images.player;;
     char direction;
     char nextDirection;
     Box box;
 
     final int speed = 4;
     boolean moving = false;
-    int [] screenLocation;
     boolean win = false;
     Player(int [] location) {
         super(location);
-        this.screenLocation = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
+        this.image = Images.player;
     }
     void update(int [] newLocation) {
         this.location = newLocation;
@@ -39,13 +37,13 @@ class Player extends Object {
                 Game.level.star.collected = true;
                 switch (Game.level.num) {
                     case 11:
-                        LevelMenu.starsCollected[0] = true;
+                        Game.menu.starsCollected[0] = true;
                         break;
                     case 16:
-                        LevelMenu.starsCollected[1] = true;
+                        Game.menu.starsCollected[1] = true;
                         break;
                     case 21:
-                        LevelMenu.starsCollected[2] = true;
+                        Game.menu.starsCollected[2] = true;
                         break;
                 }
                 try {

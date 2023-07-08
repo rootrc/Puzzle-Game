@@ -1,17 +1,12 @@
-import java.awt.Image;
-
 class Door extends Object {
     int powerValue;
     int tileValue;
     boolean isInversed;
-
-    int [] screenLocation;
     char direction;
-    Image image;
     int imageState;
     Door (int [] location, int isInversed, char direction, int powerValue) {
         super (location);
-        this.screenLocation = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
+        this.screenLocation = this.getScreenLocation();
         this.powerValue = powerValue;
         this.isInversed = isInversed == 1;
         this.direction = direction;;

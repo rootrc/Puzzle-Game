@@ -1,9 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.BasicStroke;
 import java.awt.Toolkit;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -14,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 class Panel extends JPanel implements ActionListener {
-
     Timer timer;
     final int DELAY = 20;
     Panel() {
@@ -34,64 +31,30 @@ class Panel extends JPanel implements ActionListener {
     }
     void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        if (Game.gameState == 0) {
-            g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-            g2d.setColor(Color.BLACK);
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 100));
-            g2d.drawString("Levels", 372,100);
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 72));
-            for (int x = 0; x < 6; x ++) {
-                for (int y = 0; y < 4; y ++) {
-                    g2d.setColor(Color.BLUE);
-                    g2d.fillRect(x * 128 + 140, y * 144 + 136, 88, 88);
-                    g2d.setColor(Color.BLACK);
-                    int levelNum = 1 + x + y * 6;
-                    if (levelNum < 10) {
-                        g2d.drawString(String.valueOf(1 + x + y * 6), x * 128 + 166, y * 144 + 202);
-                    } else if (levelNum < 20){
-                        g2d.drawString(String.valueOf(1 + x + y * 6), x * 128 + 146, y * 144 + 202);
-                    } else {
-                        g2d.drawString(String.valueOf(1 + x + y * 6), x * 128 + 150, y * 144 + 202);
-                    }
-                }
-            }
-            if (LevelMenu.starsCollected[0]) {
-                g2d.drawImage(Images.star, 724, 264, Game.panel);
-            }
-            if (LevelMenu.starsCollected[1]) {
-                g2d.drawImage(Images.star, 596, 408, Game.panel);
-            }
-            if (LevelMenu.starsCollected[2]) {
-                g2d.drawImage(Images.star, 468, 552, Game.panel);
-            }
+        if (Game.isMenu()) {
+            Game.menu.paint(g2d);
         }
-        if (isLevel() && Game.loaded) {
+        if (Game.isLevel() && Game.loaded) {
             Game.level.paint(g2d);
         }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (isLevel() && Game.loaded) {
-            if (!Game.level.win) {
-                Game.level.player.movement();
-                Game.level.updatePower();
-            }
+        if (Game.isLevel() && Game.loaded) {
+            Game.level.process();
         }
         repaint();
-    }
-    Boolean isLevel() {
-        return (1 <= Game.gameState && Game.gameState<= 24);
     }
     class TKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if (isLevel()) {
+            if (Game.isLevel()) {
                 Game.level.keyPressed(e);
             }
         }
         @Override
         public void keyReleased(KeyEvent e) {
-            if (isLevel()) {
+            if (Game.isLevel()) {
                 Game.level.keyReleased(e);
             }
         }
@@ -99,10 +62,9 @@ class Panel extends JPanel implements ActionListener {
     class TMouseAdapter extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (Game.gameState == 0) {
-                LevelMenu.mouseClicked(e);
-            }
-            else if (isLevel()) {
+            if (Game.isMenu()) {
+                Game.menu.mouseClicked(e);
+            } else if (Game.isLevel()) {
                 Game.level.mouseClicked(e);
             }
         }

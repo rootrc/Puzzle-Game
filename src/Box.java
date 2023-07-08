@@ -1,15 +1,10 @@
-import java.awt.Image;
-
 class Box extends Object {
     int tileValue;
-    Image image;
     char direction;
-    int [] screenLocation;
     final int speed = 4;
     Box (int [] location) {
         super(location);
         this.tileValue = getTileValue(location);
-        this.screenLocation = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
         switch (this.tileValue) {
             case 5:
                 this.image = Images.box;

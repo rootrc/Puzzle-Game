@@ -1,7 +1,12 @@
+import java.awt.Graphics2D;
+import java.awt.Image;
 class Object {
     int [] location;
+    int [] screenLocation;
+    Image image;
     Object (int [] location) {
         this.location = location;
+        this.screenLocation = this.getScreenLocation();
     }
     static Boolean isWall (int tileValue) {
         return tileValue == 1 || tileValue == 2 || tileValue == 9;
@@ -35,5 +40,11 @@ class Object {
     }
     static int getTileValue (int [] location) {
         return Game.level.grid [location[1]][location[0]];
+    }
+    int [] getScreenLocation () {
+        return new int [] {this.location [0] * 32 + 32, this.location [1] * 32 + 32};
+    }
+    void draw (Graphics2D g2d) {
+        g2d.drawImage(this.image, this.screenLocation[0] + Game.level.adjustX, this.screenLocation[1] + Game.level.adjustY, Game.panel);
     }
 }

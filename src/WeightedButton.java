@@ -1,14 +1,10 @@
-import java.awt.Image;
-
 class WeightedButton extends Object {
     int powerValue;
     boolean isPressed = false;
-    int [] screenLocation;
-    Image image = Images.weightedButtonOff;
     WeightedButton (int [] location, int powerValue) {
         super (location);
+        image = Images.weightedButtonOff;
         this.powerValue = powerValue;
-        this.screenLocation = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
     }
     void updatePower () {
         if (this.isPressed) {
