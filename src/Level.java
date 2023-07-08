@@ -163,18 +163,43 @@ class Level {
     void mouseClicked(MouseEvent e) {
         if (!this.win) {
             if (908 < e.getX() && e.getX() < 1004 && 8 < e.getY() && e.getY() < 104) {
+                try {
+                    Thread.sleep(50);
+                } catch (Exception execption) {
+
+                }
                 Game.gameState = 0; 
             } else if (804 < e.getX() && e.getX() < 900 && 8 < e.getY() && e.getY() < 104) {
                 Game.loaded = false;
+                try {
+                    Thread.sleep(50);
+                } catch (Exception execption) {
+
+                }
                 LevelData.setUp(); 
             }
         } else {
             if (292 < e.getX() && e.getX() < 388 && 520 < e.getY() && e.getY() < 616) {
+                try {
+                    Thread.sleep(50);
+                } catch (Exception execption) {
+
+                }
                 Game.gameState = 0; 
             } else if (456 < e.getX() && e.getX() < 552 && 520 < e.getY() && e.getY() < 616) {
+                try {
+                    Thread.sleep(50);
+                } catch (Exception execption) {
+
+                }
                 Game.loaded = false;
                 LevelData.setUp(); 
             } else if (this.num != 24 && 620 < e.getX() && e.getX() < 716 && 520 < e.getY() && e.getY() < 616) {
+                try {
+                    Thread.sleep(50);
+                } catch (Exception execption) {
+
+                }
                 Game.gameState ++;
                 Game.loaded = false;
                 LevelData.setUp(); 

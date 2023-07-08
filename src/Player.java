@@ -11,6 +11,7 @@ class Player extends Object {
     final int speed = 4;
     boolean moving = false;
     int [] screenLocation;
+    boolean win = false;
     Player(int [] location) {
         super(location);
         this.screenLocation = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
@@ -29,11 +30,11 @@ class Player extends Object {
             this.nextDirection = '_';
             this.moving = true;
         }
-
+        
         if (this.isMove() && this.canMove()) {
             int temp = getTileValue(this.movementLocation());
             if (isWin(temp)) {
-                Game.level.win = true;
+                this.win = true;
             } else if (isStar(temp)) {
                 Game.level.star.collected = true;
                 switch (Game.level.num) {
@@ -47,20 +48,32 @@ class Player extends Object {
                         LevelMenu.starsCollected[2] = true;
                         break;
                 }
-                this.move();
+                try {
+                    Thread.sleep(200);
+                } catch (Exception execption) {
+                    
+                }   
             } else if (isBox(temp)) {
-                    for (Box box: Game.level.boxes) {
-                        if (Arrays.equals(box.location, this.movementLocation())) {
-                            box.direction = this.direction;
-                            this.box = box;
-                            this.move();
-                            break;
+                        for (Box box: Game.level.boxes) {
+                            if (Arrays.equals(box.location, this.movementLocation())) {
+                                box.direction = this.direction;
+                                this.box = box;
+                                break;
+                            }
                         }
-                    }
-            } else {
-                this.move();
             }
-        }   
+            this.move();
+        }
+        if (this.win) {
+            if ((this.location [0] * 32 + 32 == this.screenLocation [0] && this.location [1] * 32 + 32 == this.screenLocation [1])) {
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+
+                }
+                Game.level.win = true;
+            }
+        }
     }
     boolean canMove() {
         int temp = getTileValue(this.movementLocation());
