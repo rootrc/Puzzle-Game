@@ -158,12 +158,12 @@ final class LevelData {
         Game.level.doors = new Door [] {new Door(new int [] {4, 2}, 0, 'S', 0), new Door(new int [] {5, 2}, 0, 'S', 1), new Door(new int [] {5, 5}, 0, 'S', 2)};
     }
     static void Level5() {
-        Game.level.grid = new int [][] {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 5, 0, 0, 0, 9, 0, 0, 0, 0, 0, 1}, {1, 0, 0, 5, 1, 9, 1, 5, 0, 0, 5, 1}, {1, 0, 5, 5, 1, 4, 1, 0, 0, 3, 0, 1}, {1, 0, 5, 0, 1, 1, 1, 0, 0, 0, 9, 1}, {1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
-        Game.level.player = new Player (new int [] {9, 3});
-        Game.level.boxes = new Box [] {new Box (new int [] {1, 1}), new Box (new int [] {3, 2}), new Box (new int [] {7, 2}), new Box (new int [] {10, 2}), new Box (new int [] {2, 3}), new Box (new int [] {3, 3}), new Box (new int [] {2, 4})};
-        Game.level.power = new boolean [] {false, false, false};
-        Game.level.buttons = new Button [] {new Button(new int [] {7, 5}, 0), new Button(new int [] {10, 5}, 1), new Button(new int [] {3, 5}, 2)};
-        Game.level.doors = new Door [] {new Door(new int [] {5, 1}, 0, 'N', 0), new Door(new int [] {5, 2}, 0, 'E', 1), new Door(new int [] {10, 4}, 0, 'E', 2)};
+        Game.level.grid = new int [][] {{1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 5, 0, 1, 1, 1},{1, 0, 5, 0, 0, 1, 1, 1}, {1, 0, 5, 5, 5, 9, 4, 1}, {1, 5, 0, 5, 0, 1, 1, 1}, {1, 0, 0, 0, 5, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
+        Game.level.player = new Player (new int [] {1, 3});
+        Game.level.boxes = new Box [] {new Box (new int [] {3, 1}), new Box (new int [] {2, 2}), new Box (new int [] {2, 3}), new Box (new int [] {3, 3}), new Box (new int [] {4, 3}), new Box (new int [] {1, 4}), new Box (new int [] {3, 4}), new Box (new int [] {4, 5})};
+        Game.level.power = new boolean [] {true};
+        Game.level.buttons = new Button [] {new Button(new int [] {3, 3}, 0)};
+        Game.level.doors = new Door [] {new Door(new int [] {5, 3}, 1, 'S', 0)};
     }
     static void Level6() {
         Game.level.grid = new int [][] {{1, 1, 1, 1, 1, 1}, {1, 1, 1, 4, 1, 1}, {1, 1, 1, 9, 1, 1}, {1, 1, 1, 0, 1, 1}, {1, 1, 1, 0, 1, 1}, {1, 1, 0, 0, 0, 1}, {1, 1, 5, 5, 5, 1}, {1, 1, 0, 0, 0, 1}, {1, 3, 5, 0, 5, 1}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
