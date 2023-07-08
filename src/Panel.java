@@ -59,6 +59,9 @@ class Panel extends JPanel implements ActionListener {
                 g2d.drawImage(Images.star, 724, 264, Game.panel);
             }
             if (LevelMenu.starsCollected[1]) {
+                g2d.drawImage(Images.star, 596, 408, Game.panel);
+            }
+            if (LevelMenu.starsCollected[2]) {
                 g2d.drawImage(Images.star, 468, 552, Game.panel);
             }
         }

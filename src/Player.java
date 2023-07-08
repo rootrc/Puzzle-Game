@@ -40,8 +40,11 @@ class Player extends Object {
                     case 11:
                         LevelMenu.starsCollected[0] = true;
                         break;
-                    case 21:
+                    case 16:
                         LevelMenu.starsCollected[1] = true;
+                        break;
+                    case 21:
+                        LevelMenu.starsCollected[2] = true;
                         break;
                 }
                 this.move();
