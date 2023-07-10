@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Laser extends Object {
-    HashSet <List<Integer>> encounteredConnecters;
     int tileValue;
     String direction;
     char colour;
+    HashSet <List<Integer>> encounteredConnecters;
     Laser (int [] location, String direction, char colour, HashSet <List<Integer>> encounteredConnecters) {
         super(location);
         this.direction = direction;
@@ -16,53 +16,53 @@ class Laser extends Object {
         this.encounteredConnecters = encounteredConnecters;
     }
     void update() {
-        this.tileValue = this.getTileValue();
+        tileValue = getTileValue();
     }
     int [] shootTransmitterLaser(Queue <Laser> lasers) {
-        if (this.direction.length() == 2) {
-            this.moveLaser();
+        if (direction.length() == 2) {
+            moveLaser();
         }
         while (true) {
             update();
-            if (isBlockingWall(this.tileValue)) {
-                return this.endWallLocation();
-            } else if (isDoor(this.tileValue)) {
-                return this.endDoorLocation();
-            } else if (isBlocking(this.tileValue, this.colour)) {
+            if (isBlockingWall(tileValue)) {
+                return endWallLocation();
+            } else if (isDoor(tileValue)) {
+                return endDoorLocation();
+            } else if (isBlocking()) {
                 int [] screenLocation = new int [2];
-                if (this.tileValue == 3) {
+                if (tileValue == 3) {
                     screenLocation = Game.level.player.screenLocation;
                 } else {
                     for (Box box: Game.level.boxes) {
-                        if (Arrays.equals(box.location, this.location)) {
+                        if (Arrays.equals(box.location, location)) {
                             screenLocation = box.screenLocation;
                             break;
                         }
                     }
                 }
-                if (this.isHit(screenLocation)) {
-                    return this.endBoxLocation(screenLocation);
+                if (isHit(screenLocation)) {
+                    return endBoxLocation(screenLocation);
                 }
-            } else if (isConnecter(this.tileValue)) {
-                if (this.checkValidConnecter(new Connecter(this.location.clone(), getColour(this.tileValue)))) {
-                    this.encounteredConnecters.add(Arrays.asList(this.location[0], this.location[1]));
+            } else if (isConnecter(tileValue)) {
+                if (checkValidConnecter(new Connecter(location.clone(), getColour(tileValue)))) {
+                    encounteredConnecters.add(Arrays.asList(location[0], location[1]));
                     lasers.add(this);
-                    return new int [] {this.location[0] * 32 + 48, this.location[1] * 32 + 48};
+                    return new int [] {location[0] * 32 + 48, location[1] * 32 + 48};
                 }
             }
-            if (this.checkReceivers(false)){
-                return this.endTransmitterLocation();
+            if (checkReceivers(false)){
+                return endTransmitterLocation();
             }
-            this.moveLaser();
+            moveLaser();
         }
     }
     List <int[]> shootConnecterLaser(Queue <Laser> lasers) {
         List <int[]> output = new ArrayList<>();
         /*Can optimize*/
-        for (String direction: new String [] {"N", "NE", "E", "SE", "S", "SW", "W", "NW"}) {
+        for (String i: new String [] {"N", "NE", "E", "SE", "S", "SW", "W", "NW"}) {
             boolean blocking = false;
             int [] blockingLocation = new int [2];
-            Laser temp = new Laser(this.location.clone(), direction, this.colour, (HashSet<List<Integer>>) this.encounteredConnecters.clone()); 
+            Laser temp = new Laser(location.clone(), i, colour, (HashSet<List<Integer>>) encounteredConnecters.clone()); 
             if (temp.checkReceivers(false)){
                 output.add(temp.endTransmitterLocation());
             }
@@ -76,7 +76,7 @@ class Laser extends Object {
                         blockingLocation = temp.endDoorLocation();
                         blocking = true;
                     }
-                } else if (isBlocking(temp.tileValue, temp.colour)) {
+                } else if (temp.isBlocking()) {
                     int [] screenLocation = new int [2];
                     if (temp.tileValue == 3) {
                         screenLocation = Game.level.player.screenLocation;
@@ -95,7 +95,7 @@ class Laser extends Object {
                         }
                     }
                 } else if (isConnecter(temp.tileValue)) {
-                    if (this.checkValidConnecter(new Connecter(temp.location.clone(), getColour(temp.tileValue)))) {
+                    if (checkValidConnecter(new Connecter(temp.location.clone(), getColour(temp.tileValue)))) {
                         if (blocking) {
                             output.add(blockingLocation);
                         } else {
@@ -119,9 +119,57 @@ class Laser extends Object {
         }
         return output;
     }
+    boolean isHit (int [] screenLocation) {
+        if (direction.equals("N") || direction.equals("S")) {
+            if (screenLocation [0] + 8 < location[0] * 32 + 32 + 18 && screenLocation [0] + 24 > location[0] * 32 + 32 + 14) {
+                return true;
+            }
+        } else if (direction.equals("W") || direction.equals("E")) {
+            if (screenLocation [1] + 8 < location[1] * 32 + 32 + 18 && screenLocation [1] + 24 > location[1] * 32 + 32 + 14) {
+                return true;
+            }
+        } else {
+            if (screenLocation [0] + 12 < location[0] * 32 + 32 + 24 && screenLocation [0] + 24 > location[0] * 32 + 32 + 12 && screenLocation [1] + 8 < location[1] * 32 + 32 + 24 && screenLocation [1] + 24 > location[1] * 32 + 32 + 8) {
+                return true;
+            }
+        }
+        return false;
+    }
+    void moveLaser () {
+        switch (direction) {
+            case "N":
+                location [1] --;
+                break;
+            case "NE":
+                location [0] ++;
+                location [1] --;
+                break;
+            case "E":
+                location [0] ++;
+                break;
+            case "SE":
+                location [0] ++;
+                location [1] ++;
+                break;
+            case "S":
+                location [1] ++;
+                break;
+            case "SW":
+                location [0] --;
+                location [1] ++;
+                break;
+            case "W":
+                location [0] --;
+                break;
+            case "NW":
+                location [0] --;
+                location [1] --;
+                break;
+        }
+    }
     int [] endWallLocation() {
-        int [] output = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
-        switch (this.direction) {
+        int [] output = new int [] {location[0] * 32 + 32, location[1] * 32 + 32};
+        switch (direction) {
             case "N":
                 output [0] += 16;
                 output [1] += 32;
@@ -156,8 +204,8 @@ class Laser extends Object {
         return output;
     }
     int [] endDoorLocation() {
-        int [] output = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
-        switch (this.direction) {
+        int [] output = new int [] {location[0] * 32 + 32, location[1] * 32 + 32};
+        switch (direction) {
             case "N":
                 output [0] += 16;
                 output [1] += 20;
@@ -194,28 +242,28 @@ class Laser extends Object {
         return output;
     }
     int [] endBoxLocation(int [] screenLocation) {
-        int [] output = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
-        switch (this.direction) {
+        int [] output = new int [] {location[0] * 32 + 32, location[1] * 32 + 32};
+        switch (direction) {
             case "N":
-                return new int [] {this.location[0] * 32 + 32 + 16, screenLocation[1] + 22};
+                return new int [] {location[0] * 32 + 32 + 16, screenLocation[1] + 22};
             case "NE":
                 output [0] += 15;
                 output [1] += 17;
                 break;
             case "E":
-                return new int [] {screenLocation[0] + 10, this.location[1] * 32 + 32 + 16};
+                return new int [] {screenLocation[0] + 10, location[1] * 32 + 32 + 16};
             case "SE":    
                 output [0] += 15;
                 output [1] += 15;    
                 break;
             case "S":
-                return new int [] {this.location[0] * 32 + 32 + 16, screenLocation[1] + 10};
+                return new int [] {location[0] * 32 + 32 + 16, screenLocation[1] + 10};
             case "SW":
                 output [0] += 17;
                 output [1] += 15;
                 break;
             case "W":
-                return new int [] {screenLocation[0] + 22, this.location[1] * 32 + 32 + 16};
+                return new int [] {screenLocation[0] + 22, location[1] * 32 + 32 + 16};
             case "NW":
                 output [0] += 17;
                 output [1] += 17;
@@ -224,8 +272,8 @@ class Laser extends Object {
         return output;
     }
     int [] endTransmitterLocation() {
-        int [] output = new int [] {this.location[0] * 32 + 32, this.location[1] * 32 + 32};
-        switch (this.direction) {
+        int [] output = new int [] {location[0] * 32 + 32, location[1] * 32 + 32};
+        switch (direction) {
             case "N":
                 output [0] += 16;
                 output [1] += 6;
@@ -261,54 +309,6 @@ class Laser extends Object {
         }
         return output;
     }
-    boolean isHit (int [] screenLocation) {
-        if (this.direction.equals("N") || this.direction.equals("S")) {
-            if (screenLocation [0] + 8 < this.location[0] * 32 + 32 + 18 && screenLocation [0] + 24 > this.location[0] * 32 + 32 + 14) {
-                return true;
-            }
-        } else if (this.direction.equals("W") || this.direction.equals("E")) {
-            if (screenLocation [1] + 8 < this.location[1] * 32 + 32 + 18 && screenLocation [1] + 24 > this.location[1] * 32 + 32 + 14) {
-                return true;
-            }
-        } else {
-            if (screenLocation [0] + 12 < this.location[0] * 32 + 32 + 24 && screenLocation [0] + 24 > this.location[0] * 32 + 32 + 12 && screenLocation [1] + 8 < this.location[1] * 32 + 32 + 24 && screenLocation [1] + 24 > this.location[1] * 32 + 32 + 8) {
-                return true;
-            }
-        }
-        return false;
-    }
-    void moveLaser () {
-        switch (this.direction) {
-            case "N":
-                this.location [1] --;
-                break;
-            case "NE":
-                this.location [0] ++;
-                this.location [1] --;
-                break;
-            case "E":
-                this.location [0] ++;
-                break;
-            case "SE":
-                this.location [0] ++;
-                this.location [1] ++;
-                break;
-            case "S":
-                this.location [1] ++;
-                break;
-            case "SW":
-                this.location [0] --;
-                this.location [1] ++;
-                break;
-            case "W":
-                this.location [0] --;
-                break;
-            case "NW":
-                this.location [0] --;
-                this.location [1] --;
-                break;
-        }
-    }
     boolean checkReceivers (boolean blocking) {
         boolean output = false;
         for (Receiver receiver: Game.level.receivers) {
@@ -333,10 +333,19 @@ class Laser extends Object {
         }
         return '_';
     }
+    boolean isBlocking () {
+        if (colour == 'B') {
+            return (tileValue == 3 || tileValue == 5 || tileValue == 8);
+        }
+        if (colour == 'R') {
+            return (tileValue == 3 || tileValue == 5 || tileValue == 7);
+        }
+        return false;
+    }
     boolean checkReceiverHit (Receiver receiver) {
-        return this.colour == receiver.colour && Arrays.equals(this.location, receiver.location) && this.direction.contains(receiver.direction);
+        return colour == receiver.colour && Arrays.equals(location, receiver.location) && direction.contains(receiver.direction);
     }
     boolean checkValidConnecter (Connecter connecter) {
-        return (connecter.colour == 'W' || this.colour == connecter.colour) && !this.encounteredConnecters.contains(Arrays.asList(connecter.location[0], connecter.location[1]));
+        return (connecter.colour == 'W' || colour == connecter.colour) && !encounteredConnecters.contains(Arrays.asList(connecter.location[0], connecter.location[1]));
     }
 }

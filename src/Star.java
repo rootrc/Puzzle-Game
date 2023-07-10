@@ -1,5 +1,3 @@
-import java.awt.Image;
-
 class Star extends Object {
     boolean collected = false;
     Star (int [] location) {

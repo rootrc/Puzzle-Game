@@ -4,65 +4,64 @@ class Box extends Object {
     final int speed = 4;
     Box (int [] location) {
         super(location);
-        this.tileValue = getTileValue(location);
-        switch (this.tileValue) {
+        tileValue = getTileValue(location);
+        switch (tileValue) {
             case 5:
-                this.image = Images.box;
+                image = Images.box;
                 break;
             case 6:
-                this.image = Images.connecterWhite;
+                image = Images.connecterWhite;
                 break;
             case 7:
-                this.image = Images.connecterBlue;
+                image = Images.connecterBlue;
                 break;
             case 8:
-                this.image = Images.connecterRed;
+                image = Images.connecterRed;
                 break;
         }
     }
     void movement() {
         gridMove();
         if (isMove()) {
-            this.location = this.movementLocation(this.direction);
-            Game.level.setGridTileValue(this.location, this.tileValue);
+            location = movementLocation(direction);
+            Game.level.setGridTileValue(location, tileValue);
         }
-        if (this.location [0] * 32 + 32 == this.screenLocation [0] && this.location [1] * 32 + 32 == this.screenLocation [1]) {
+        if (screenEqualsGridLocationX() && screenEqualsGridLocationY()) {
             Game.level.player.box = null;
-            this.direction = '_';
+            direction = '_';
+        }
+    }
+    void gridMove() {
+        switch (direction) {
+            case 'w':
+                screenLocation [1] -= speed;
+                break;
+            case 'a':
+                screenLocation [0] -= speed;
+                break;
+            case 's':      
+                screenLocation [1] += speed;
+                break;
+            case 'd':
+                screenLocation [0] += speed;       
+                break;
         }
     }
     boolean isMove() {
-        switch (this.direction) {
+        switch (direction) {
             case 'w':
-                return this.location [1] * 32 + 32 - 16 >= this.screenLocation [1];
+                return getScreenLocationY() - 16 >= screenLocation [1];
             case 'a':
-                return this.location [0] * 32 + 32 - 16 >= this.screenLocation [0];
+                return getScreenLocationX() - 16 >= screenLocation [0];
             case 's':
-                return this.location [1] * 32 + 32 + 16 <= this.screenLocation [1];
+                return getScreenLocationY() + 16 <= screenLocation [1];
             case 'd':
-                return this.location [0] * 32 + 32 + 16 <= this.screenLocation [0];                
+                return getScreenLocationX() + 16 <= screenLocation [0];                
         }
         return false;
     }
-    void gridMove() {
-        switch (this.direction) {
-            case 'w':
-                this.screenLocation [1] -= this.speed;
-                break;
-            case 'a':
-                this.screenLocation [0] -= this.speed;
-                break;
-            case 's':      
-                this.screenLocation [1] += this.speed;
-                break;
-            case 'd':
-                this.screenLocation [0] += this.speed;       
-                break;
-
-        }
-    }
     int [] movementLocation (char direction) {
-        int [] tempLocation = this.location.clone();
+        int [] tempLocation = location.clone();
         switch (direction) {
             case 'w':
                 tempLocation[1] -= 1;
@@ -79,8 +78,14 @@ class Box extends Object {
         }
         return new int [] {tempLocation [0], tempLocation [1]}; 
     }
-    Boolean isPushable (char direction) {
+    boolean isPushable (char direction) {
         int temp = getTileValue(movementLocation(direction));
         return !(isWall(temp) || isBox(temp));
+    }
+    boolean screenEqualsGridLocationX () {
+        return getScreenLocationX() == screenLocation [0];
+    }
+    boolean screenEqualsGridLocationY () {
+        return getScreenLocationY() == screenLocation [1];
     }
 }

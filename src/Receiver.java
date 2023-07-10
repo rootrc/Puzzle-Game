@@ -9,18 +9,18 @@ class Receiver extends Object {
         this.direction = direction;
         this.colour = colour;
         this.powerValue = powerValue;
-        if (this.direction.equals("N")) {
-            this.directionImage = 0;
-        } else if (this.direction.equals("W")) {
-            this.directionImage = 1;
-        } else if (this.direction.equals("S")) {
-            this.directionImage = 2;
-        } else if (this.direction.equals("E")) {
-            this.directionImage = 3;
+        if (direction.equals("N")) {
+            directionImage = 0;
+        } else if (direction.equals("W")) {
+            directionImage = 1;
+        } else if (direction.equals("S")) {
+            directionImage = 2;
+        } else if (direction.equals("E")) {
+            directionImage = 3;
         }
-        if (this.colour == 'R') {
+        if (colour == 'R') {
             directionImage += 4;
         }
-        this.isOn = false;
+        isOn = false;
     }
 }

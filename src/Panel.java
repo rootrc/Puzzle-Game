@@ -13,14 +13,13 @@ import javax.swing.Timer;
 
 class Panel extends JPanel implements ActionListener {
     Timer timer;
-    final int DELAY = 20;
     Panel() {
         super();
         addKeyListener(new TKeyAdapter());
         addMouseListener(new TMouseAdapter());
         setBackground(Color.white);
 	    setFocusable(true);
-        timer = new Timer(DELAY, this);
+        timer = new Timer(20, this);
         timer.start();
     }
     @Override
@@ -34,13 +33,13 @@ class Panel extends JPanel implements ActionListener {
         if (Game.isMenu()) {
             Game.menu.paint(g2d);
         }
-        if (Game.isLevel() && Game.loaded) {
+        if (Game.isLevel() && Game.isLoaded()) {
             Game.level.paint(g2d);
         }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (Game.isLevel() && Game.loaded) {
+        if (Game.isLevel() && Game.isLoaded()) {
             Game.level.process();
         }
         repaint();

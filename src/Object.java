@@ -20,31 +20,31 @@ class Object {
     static Boolean isBox (int tileValue) {
         return tileValue == 3 || (5 <= tileValue && tileValue <= 8);
     }
-    static boolean isBlocking (int tileValue, char colour) {
-        if (colour == 'B') {
-            return (tileValue == 3 || tileValue == 5 || tileValue == 8);
-        }
-        if (colour == 'R') {
-            return (tileValue == 3 || tileValue == 5 || tileValue == 7);
-        }
-        return false;
-    }
     static boolean isConnecter (int tileValue) {
         return (6 <= tileValue && tileValue % 10 <= 8);
+    }
+    static Boolean isWin (int tileValue) {
+        return tileValue == 4;
     }
     static boolean isStar (int tileValue) {
         return tileValue == 10;
     }
     int getTileValue () {
-        return Game.level.grid [this.location[1]][this.location[0]];    
+        return Game.level.grid [location[1]][location[0]];    
     }
     static int getTileValue (int [] location) {
         return Game.level.grid [location[1]][location[0]];
     }
+    int getScreenLocationX () {
+        return location [0] * 32 + 32;
+    }
+    int getScreenLocationY () {
+        return location [1] * 32 + 32;
+    }
     int [] getScreenLocation () {
-        return new int [] {this.location [0] * 32 + 32, this.location [1] * 32 + 32};
+        return new int [] {getScreenLocationX(), getScreenLocationY()};
     }
     void draw (Graphics2D g2d) {
-        g2d.drawImage(this.image, this.screenLocation[0] + Game.level.adjustX, this.screenLocation[1] + Game.level.adjustY, Game.panel);
+        g2d.drawImage(image, screenLocation[0] + Game.level.adjustX, screenLocation[1] + Game.level.adjustY, Game.panel);
     }
 }

@@ -7,15 +7,15 @@ class Transmitter extends Object {
     Transmitter(int [] location, String direction, char colour) {
         super(location);
         this.direction = direction;
-        this.screenLocation = this.startLocation();
+        this.screenLocation = startLocation();
         this.colour = colour;
     }
     void newLaser() {
-        this.laser = new Laser(this.location.clone(), this.direction, this.colour, new HashSet <>());
+        laser = new Laser(location.clone(), direction, colour, new HashSet <>());
     }
     int [] startLocation() {
-        int [] output = this.screenLocation;
-        switch (this.direction) {
+        int [] output = screenLocation;
+        switch (direction) {
             case "N":
                 output [0] += 16;
                 output [1] += 26;

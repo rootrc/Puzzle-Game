@@ -5,11 +5,11 @@ class Button extends Object {
         this.powerValue = powerValue;
     }
     void updatePower () {
-        if (isBox(this.getTileValue())) {
-            Game.level.setPowerValueOn(this.powerValue);
-            this.image = Images.buttonOn;
+        if (isBox(getTileValue())) {
+            Game.level.setPowerValueOn(powerValue);
+            image = Images.buttonOn;
         } else {
-            this.image = Images.buttonOff;
+            image = Images.buttonOff;
         }
     }
 }   

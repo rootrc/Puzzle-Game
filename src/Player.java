@@ -1,38 +1,31 @@
 import java.util.Arrays;
-import java.awt.Image;
 
 class Player extends Box {
     final int tileValue = 3;
     char direction;
     char nextDirection;
-    Box box;
-
-    final int speed = 4;
     boolean moving = false;
     boolean win = false;
+    Box box;
     Player(int [] location) {
         super(location);
         this.image = Images.player;
     }
-    void update(int [] newLocation) {
-        this.location = newLocation;
-    }
     void movement() {
-        if (this.box != null) {
-            this.push();
+        if (box != null) {
+            push();
         }
-        if ((this.canMove() && this.moving) || (this.location [0] * 32 + 32 != this.screenLocation [0] || this.location [1] * 32 + 32 != this.screenLocation [1])) {
+        if ((canMove() && moving) || !(screenEqualsGridLocationX () && screenEqualsGridLocationY ())) {
             gridMove();
-        } else if (this.nextDirection != '_'){
-            this.direction = this.nextDirection;
-            this.nextDirection = '_';
-            this.moving = true;
+        } else if (nextDirection != '_'){
+            direction = nextDirection;
+            nextDirection = '_';
+            moving = true;
         }
-        
-        if (this.isMove() && this.canMove()) {
-            int temp = getTileValue(this.movementLocation());
+        if (isMove() && canMove()) {
+            int temp = getTileValue(movementLocation());
             if (isWin(temp)) {
-                this.win = true;
+                win = true;
             } else if (isStar(temp)) {
                 Game.level.star.collected = true;
                 switch (Game.level.num) {
@@ -53,17 +46,17 @@ class Player extends Box {
                 }   
             } else if (isBox(temp)) {
                         for (Box box: Game.level.boxes) {
-                            if (Arrays.equals(box.location, this.movementLocation())) {
-                                box.direction = this.direction;
+                            if (Arrays.equals(box.location, movementLocation())) {
+                                box.direction = direction;
                                 this.box = box;
                                 break;
                             }
                         }
             }
-            this.move();
+            move();
         }
-        if (this.win) {
-            if ((this.location [0] * 32 + 32 == this.screenLocation [0] && this.location [1] * 32 + 32 == this.screenLocation [1])) {
+        if (win) {
+            if ((screenEqualsGridLocationX () && screenEqualsGridLocationY ())) {
                 try {
                     Thread.sleep(100);
                 } catch (Exception e) {
@@ -74,56 +67,55 @@ class Player extends Box {
         }
     }
     boolean canMove() {
-        int temp = getTileValue(this.movementLocation());
+        int temp = getTileValue(movementLocation());
         if (isWall(temp)) {
             return false;
         } else if (isBox(temp)){
-            temp = getTileValue(this.boxMovementLocation());
+            temp = getTileValue(boxMovementLocation());
             return !(isWall(temp) || isBox(temp));
         }
         return true;
     }
     boolean isMove() {
-        switch (this.direction) {
+        switch (direction) {
             case 'w':
-                return this.location [1] * 32 + 32 - 16 >= this.screenLocation [1];
+                return getScreenLocationY() - 16 >= screenLocation [1];
             case 'a':
-                return this.location [0] * 32 + 32 - 16 >= this.screenLocation [0];
+                return getScreenLocationX() - 16 >= screenLocation [0];
             case 's':
-                return this.location [1] * 32 + 32 + 16 <= this.screenLocation [1];
+                return getScreenLocationY() + 16 <= screenLocation [1];
             case 'd':
-                return this.location [0] * 32 + 32 + 16 <= this.screenLocation [0];                
+                return getScreenLocationX() + 16 <= screenLocation [0];                
         }
         return false;
     }
     void gridMove() {
-        switch (this.direction) {
+        switch (direction) {
             case 'w':
-                this.screenLocation [1] -= speed;
+                screenLocation [1] -= speed;
                 break;
             case 'a':
-                this.screenLocation [0] -= speed;
+                screenLocation [0] -= speed;
                 break;
             case 's':      
-                this.screenLocation [1] += speed;
+                screenLocation [1] += speed;
                 break;
             case 'd':
-                this.screenLocation [0] += speed;       
+                screenLocation [0] += speed;       
                 break;
-
         }
     }
     void move () {
-        Game.level.setGridTileValue(this.location, 0);
-        this.update(this.movementLocation());
-        Game.level.setGridTileValue(this.location, this.tileValue);
+        Game.level.setGridTileValue(location, 0);
+        updateLocation();
+        Game.level.setGridTileValue(location, tileValue);
     }
     void push () {
-        this.box.movement();
+        box.movement();
     }
     int [] movementLocation () {
-        int [] tempLocation = this.location.clone();
-        switch (this.direction) {
+        int [] tempLocation = location.clone();
+        switch (direction) {
             case 'w':
                 tempLocation[1] --;
                 break;
@@ -140,8 +132,8 @@ class Player extends Box {
         return new int [] {tempLocation [0], tempLocation [1]}; 
     }
     int [] boxMovementLocation () {
-        int [] tempLocation = this.location.clone();
-        switch (this.direction) {
+        int [] tempLocation = location.clone();
+        switch (direction) {
             case 'w':
                 tempLocation[1] -= 2;
                 break;
@@ -157,7 +149,7 @@ class Player extends Box {
         }
         return new int [] {tempLocation [0], tempLocation [1]}; 
     }
-    static Boolean isWin (int tileValue) {
-        return tileValue == 4;
+    void updateLocation() {
+        location = movementLocation();
     }
 }

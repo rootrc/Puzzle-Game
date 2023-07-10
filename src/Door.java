@@ -1,73 +1,70 @@
 class Door extends Object {
-    int powerValue;
     int tileValue;
+    int powerValue;
     boolean isInversed;
     char direction;
-    int imageState;
+    int state;
     Door (int [] location, int isInversed, char direction, int powerValue) {
         super (location);
         this.screenLocation = this.getScreenLocation();
         this.powerValue = powerValue;
         this.isInversed = isInversed == 1;
-        this.direction = direction;;
+        this.direction = direction;
     }
     void update () {
-        this.tileValue = getTileValue(this.location);
-        if (this.isInversed) {
-             if (this.isOn()) {
-                if (this.image == null) {
-                    this.imageState = 3;
+        tileValue = getTileValue(location);
+        if (isInversed) {
+            if (isOn()) {
+                if (image == null) {
+                    state = 3;
                 }
-                this.close();
+                close();
             } else {
-                if (this.image == null) {
-                    this.imageState = 0;
+                if (image == null) {
+                    state = 0;
                 }
-                this.open();
+                open();
             }
         }
         else {
-            if (this.isOn()) {
-                if (this.image == null) {
-                    this.imageState = 0;
+            if (isOn()) {
+                if (image == null) {
+                    state = 0;
                 }
-                this.open();
+                open();
             } else {
-                if (this.image == null) {
-                    this.imageState = 3;
+                if (image == null) {
+                    state = 3;
                 }
-                this.close();
+                close();
             }
         }
-        this.image = Images.doors [this.getImage()][this.imageState];
+        image = Images.doors [getImage()][state];
     }
     void open () {
-        if (this.tileValue == 9 && this.imageState == 1) {
-            Game.level.setGridTileValue(this.location, 0);
+        if (tileValue == 9 && state == 1) {
+            Game.level.setGridTileValue(location, 0);
         }
-        if (this.imageState == 4) {
-            this.imageState = 0;
-        } else if (this.imageState != 0) {
-            this.imageState --;
+        if (state == 4) {
+            state = 0;
+        } else if (state != 0) {
+            state --;
         }
     }
     void close () {
-        if (this.tileValue == 0 && this.imageState == 2) {
-            Game.level.setGridTileValue(this.location, 9);
-        } else if (isBox(this.tileValue)){
-            this.imageState = 4;
-        } else if (this.imageState == 4) {
-            this.imageState = 0;
+        if (tileValue == 0 && state == 2) {
+            Game.level.setGridTileValue(location, 9);
+        } else if (isBox(tileValue)){
+            state = 4;
+        } else if (state == 4) {
+            state = 0;
         }
-        if (this.imageState != 3 && this.imageState != 4) {
-            this.imageState ++;
+        if (state != 3 && state != 4) {
+            state ++;
         }
-    }
-    boolean isOn() {
-        return Game.level.power [this.powerValue];
     }
     int getImage() {
-        switch (this.direction) {
+        switch (direction) {
             case 'N':
                 return 0;
             case 'W':
@@ -78,6 +75,9 @@ class Door extends Object {
                 return 3;                                                
         }
         return 0;
+    }
+    boolean isOn() {
+        return Game.level.power [powerValue];
     }
 
 }

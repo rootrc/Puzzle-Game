@@ -1,16 +1,4 @@
 final class LevelData {  
-    /* 0 - Empty 
-        * 1 - Wall
-        * 2 - Glass
-        * 3 - Player
-        * 4 - Win
-        * 5 - Box
-        * 6 - White connector
-        * 7 - Blue connector
-        * 8 - Red connector
-        * 9 - Door
-        * 10 - Star
-    */
     static void setUp() {
         levelClear();
         Game.level.num = Game.gameState;
@@ -129,6 +117,19 @@ final class LevelData {
         Game.level.star = null;
         Game.level.win = false;
     }
+    /* 
+        0 - Empty 
+        * 1 - Wall
+        * 2 - Glass
+        * 3 - Player
+        * 4 - Win
+        * 5 - Box
+        * 6 - White connector
+        * 7 - Blue connector
+        * 8 - Red connector
+        * 9 - Door
+        * 10 - Star
+    */
     static void Level1() {
         Game.level.grid = new int [][] {{1, 1, 1, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 1, 1}, {1, 0, 0, 4, 0, 0, 1}, {1, 1, 0, 0, 0, 1, 1}, {1, 1, 0, 0, 0, 1, 1}, {1, 3, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 1}};
         Game.level.player = new Player (new int [] {1, 5});
