@@ -1,15 +1,15 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.Image;
-import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 class Level {
     int num;
@@ -35,9 +35,9 @@ class Level {
         if (!win) {
             g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             g2d.setColor(Color.BLACK);
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 100));
+            g2d.setFont(new Font("SansSerif", Font.BOLD, 100));
             g2d.drawString(Integer.toString(num), 24, 92);
-            g2d.setFont(new Font("TimesRoman", Font.PLAIN, 64));
+            g2d.setFont(new Font("SansSerif", Font.PLAIN, 64));
             if (num < 10) {
                 g2d.drawString(name, 96, 84);
             } else {

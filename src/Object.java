@@ -1,5 +1,6 @@
 import java.awt.Graphics2D;
 import java.awt.Image;
+
 class Object {
     int [] location;
     int [] screenLocation;

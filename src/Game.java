@@ -1,5 +1,5 @@
-import javax.swing.JFrame;
 import java.awt.Color;
+import javax.swing.JFrame;
 
 public class Game {  
     static JFrame frame = new JFrame ();
@@ -17,7 +17,6 @@ public class Game {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(panel);
         frame.setVisible(true);
-
     }
     static boolean isMenu () {
         return Game.gameState == 0;
@@ -30,7 +29,7 @@ public class Game {
     }
     static void loadLevel () {       
         Game.loaded = false;
-        LevelData.setUp();
+        LevelFactory.setUp();
     }
 } 
 

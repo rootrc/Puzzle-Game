@@ -1,8 +1,8 @@
-import java.util.Arrays;
-import java.util.Queue;
-import java.util.HashSet;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Queue;
 
 class Laser extends Object {
     int tileValue;
@@ -56,6 +56,7 @@ class Laser extends Object {
             moveLaser();
         }
     }
+    @SuppressWarnings("unchecked")
     List <int[]> shootConnecterLaser(Queue <Laser> lasers) {
         List <int[]> output = new ArrayList<>();
         /*Can optimize*/

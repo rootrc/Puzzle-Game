@@ -1,4 +1,4 @@
-final class LevelData {  
+final class LevelFactory {  
     static void setUp() {
         levelClear();
         Game.level.num = Game.gameState;
