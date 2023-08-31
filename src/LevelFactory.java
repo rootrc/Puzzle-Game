@@ -79,6 +79,8 @@ final class LevelFactory {
         Game.level.image = Images.levels[Game.gameState - 1];
         Game.level.adjustX = (1024 - Game.level.image.getWidth(null)) / 2 - 16;
         Game.level.adjustY = (768 - Game.level.image.getHeight(null)) / 2 + 16;
+        Game.stack.clear();
+        Game.stack.addLast(Game.level.copy());
         Game.loaded = true;     
     }
     static void levelClear() {

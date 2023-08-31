@@ -3,7 +3,7 @@ import javax.swing.ImageIcon;
 
 class Images {
         final static Image nextIcon = new ImageIcon("Images/Next Icon.png").getImage();
-        final static Image restartIcon = new ImageIcon("Images/Restart Icon.png").getImage();;
+        final static Image restartIcon = new ImageIcon("Images/Restart Icon.png").getImage();
         final static Image menuIcon = new ImageIcon("Images/Menu Icon.png").getImage();
         final static Image[] levels = { new ImageIcon("Images/Level 1.png").getImage(),
                         new ImageIcon("Images/Level 2.png").getImage(),

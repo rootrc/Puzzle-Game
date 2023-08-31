@@ -1,11 +1,14 @@
 import java.awt.Color;
 import javax.swing.JFrame;
+import java.util.Deque;
+import java.util.LinkedList;
 
-public class Game {  
+public class Game {
     static JFrame frame = new JFrame ();
     static Panel panel = new Panel();
     static LevelMenu menu = new LevelMenu();
     static Level level = new Level();
+    static Deque <Level> stack = new LinkedList <>();
     static int gameState = 0;
     static boolean loaded = false;
     public static void main (String[] args) {  

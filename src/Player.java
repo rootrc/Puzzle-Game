@@ -43,13 +43,13 @@ class Player extends Box {
                     Thread.sleep(200);
                 } catch (Exception exception) {}   
             } else if (isBox(temp)) {
-                        for (Box box: Game.level.boxes) {
-                            if (Arrays.equals(box.location, movementLocation())) {
-                                box.direction = direction;
-                                this.box = box;
-                                break;
-                            }
-                        }
+                for (Box box: Game.level.boxes) {
+                    if (Arrays.equals(box.location, movementLocation())) {
+                        box.direction = direction;
+                        this.box = box;
+                        break;
+                    }
+                }
             }
             move();
         }

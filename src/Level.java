@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +26,7 @@ class Level {
     Receiver [] receivers;
     Door [] doors;
     Star star;
-    ArrayList <ScreenLaser> screenLasers = new ArrayList <>();;
+    ArrayList <ScreenLaser> screenLasers = new ArrayList <>();
     boolean win;
 
     Image image;
@@ -124,8 +125,14 @@ class Level {
         if (win) {
             return;
         }
+        int [] oldLocation = player.location.clone();
         player.movement();
         updatePower();
+        if (oldLocation[0] != player.location[0] || oldLocation[1] != player.location[1]) {
+            Level copy = this.copy();
+            Game.stack.addLast(copy.copy());
+        }
+        
     }
     void updatePower() {
         resetPower();
@@ -213,6 +220,9 @@ class Level {
                 player.nextDirection = 'd';
             }
         }
+        if (key == KeyEvent.VK_BACK_SPACE) {
+            undoMove();
+        }
     }
     void keyReleased(KeyEvent e) {
         if (win) {
@@ -277,6 +287,77 @@ class Level {
                 Game.loadLevel();
             }
         }
+    }
+    void undoMove() {
+        if (Game.stack.size() < 2) {
+            return;
+        }
+        Game.stack.pollLast();
+        Level copy = Game.stack.peekLast().copy();
+        if (copy.player.box != null) {
+            for (Box box: copy.boxes) {
+                if (Arrays.equals(box.location, copy.player.box.location)) {
+                    switch (copy.player.box.direction) {
+                        case 'w':
+                            box.location [1] --;
+                            box.screenLocation [1] -= 32;
+                            break;
+                        case 'a':
+                            box.location [0] --;
+                            box.screenLocation [0] -= 32;
+                            break;
+                        case 's':
+                            box.location [1] ++;
+                            box.screenLocation [1] += 32;
+                            break;
+                        case 'd':
+                            box.location [0] ++; 
+                            box.screenLocation [0] += 32;
+                            break;
+                    }
+                    copy.grid[box.location [1]][box.location [0]] = copy.player.box.tileValue;
+                }
+            }
+        }
+        Game.level = copy;
+    }
+    Level copy() {
+        Level copy = new Level();
+        copy.num = num;
+        copy.name = name;
+        copy.grid = new int [grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+            copy.grid[i] = grid[i].clone();
+        }
+        copy.player = new Player(player.location.clone());
+        if (player.box != null) {
+            copy.player.box = new Box (player.box.location.clone());
+            copy.player.box.tileValue = player.box.tileValue;
+            copy.player.box.direction = player.box.direction;
+        }
+        copy.boxes = new Box[boxes.length];
+        for (int i = 0; i < boxes.length; i++) {
+            copy.boxes[i] = new Box (boxes[i].location.clone()); 
+            copy.boxes[i].tileValue = boxes[i].tileValue;
+            copy.boxes[i].image = boxes[i].image;
+        }
+        copy.power = power;
+        copy.buttons = buttons;
+        copy.weightedButtons = new WeightedButton[weightedButtons.length];
+        for (int i = 0; i < weightedButtons.length; i++) {
+            copy.weightedButtons[i] = new WeightedButton(weightedButtons[i].location, weightedButtons[i].powerValue);
+            copy.weightedButtons[i].isPressed = weightedButtons[i].isPressed;
+            copy.weightedButtons[i].image = weightedButtons[i].image;
+        }
+        copy.transmitters = transmitters;
+        copy.receivers = receivers;
+        copy.doors = doors;
+        copy.star = star;
+        copy.win = win;
+        copy.image = image;
+        copy.adjustX = adjustX;
+        copy.adjustY = adjustY;
+        return copy;
     }
     void setGridTileValue (int [] location, int tileValue) {
         grid [location [1]][location [0]] = tileValue;
