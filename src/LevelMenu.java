@@ -50,12 +50,10 @@ class LevelMenu {
         if (Game.gameState == 0) {
             for (int x = 0; x < 6; x ++) {
                 for (int y = 0; y < 4; y ++) {
-                    if (x * 128 + 168 < e.getX() && e.getX() < x * 128 + 232 && y * 144 + 132 < e.getY() && e.getY() < y * 144 + 228) {
+                    if (x * 128 + 136 < e.getX() && e.getX() < x * 128 + 232 && y * 128 + 164 < e.getY() && e.getY() < y * 128 + 260) {
                         try {
                             Thread.sleep(50);
-                        } catch (Exception execption) {
-        
-                        }
+                        } catch (Exception exception) {}
                         Game.gameState = 6 * y + x + 1; 
                         Game.loadLevel();
                     }

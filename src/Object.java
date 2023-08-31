@@ -31,7 +31,7 @@ class Object {
         return tileValue == 10;
     }
     int getTileValue () {
-        return Game.level.grid [location[1]][location[0]];    
+        return Game.level.grid [location[1]][location[0]];
     }
     static int getTileValue (int [] location) {
         return Game.level.grid [location[1]][location[0]];

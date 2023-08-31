@@ -77,7 +77,7 @@ class Door extends Object {
         return 0;
     }
     boolean isOn() {
-        return Game.level.power [powerValue];
+        return Game.level.power [powerValue].isPowered;
     }
 
 }

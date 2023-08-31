@@ -41,9 +41,7 @@ class Player extends Box {
                 }
                 try {
                     Thread.sleep(200);
-                } catch (Exception execption) {
-                    
-                }   
+                } catch (Exception exception) {}   
             } else if (isBox(temp)) {
                         for (Box box: Game.level.boxes) {
                             if (Arrays.equals(box.location, movementLocation())) {
@@ -59,9 +57,7 @@ class Player extends Box {
             if ((screenEqualsGridLocationX () && screenEqualsGridLocationY ())) {
                 try {
                     Thread.sleep(100);
-                } catch (Exception e) {
-
-                }
+                } catch (Exception exception) {}
                 Game.level.win = true;
             }
         }
