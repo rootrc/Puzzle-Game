@@ -1,6 +1,7 @@
-class Star extends Object {
+class Star extends GameObject {
     boolean collected = false;
-    Star (int [] location) {
+
+    Star(int[] location) {
         super(location);
         image = Images.star;
     }
