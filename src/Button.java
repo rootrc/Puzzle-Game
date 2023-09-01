@@ -1,10 +1,12 @@
-class Button extends Object {
+class Button extends GameObject {
     int powerValue;
-    Button (int [] location, int powerValue) {
-        super (location);
+
+    Button(int[] location, int powerValue) {
+        super(location);
         this.powerValue = powerValue;
     }
-    void updatePower () {
+
+    void updatePower() {
         if (isBox(getTileValue())) {
             Game.level.setPowerValueOn(powerValue);
             image = Images.buttonOn;

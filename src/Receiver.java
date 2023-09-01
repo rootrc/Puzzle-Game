@@ -1,22 +1,20 @@
-class Receiver extends Object {
+class Receiver extends GameObject {
     String direction;
     char colour;
-    int powerValue; 
+    int powerValue;
     boolean isOn;
     int directionImage;
-    Receiver(int [] location, String direction, char colour, int powerValue) {
+
+    Receiver(int[] location, String direction, char colour, int powerValue) {
         super(location);
         this.direction = direction;
         this.colour = colour;
         this.powerValue = powerValue;
-        if (direction.equals("N")) {
-            directionImage = 0;
-        } else if (direction.equals("W")) {
-            directionImage = 1;
-        } else if (direction.equals("S")) {
-            directionImage = 2;
-        } else if (direction.equals("E")) {
-            directionImage = 3;
+        switch (direction) {
+            case "N" -> directionImage = 0;
+            case "W" -> directionImage = 1;
+            case "S" -> directionImage = 2;
+            case "E" -> directionImage = 3;
         }
         if (colour == 'R') {
             directionImage += 4;

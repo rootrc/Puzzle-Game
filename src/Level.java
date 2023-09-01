@@ -1,32 +1,25 @@
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.*;
 
 class Level {
     int num;
     String name;
 
-    int [][] grid;
+    int[][] grid;
     Player player;
-    Box [] boxes;
-    Wire [] power;
-    Button [] buttons;
-    WeightedButton [] weightedButtons; 
-    Transmitter [] transmitters;
-    Receiver [] receivers;
-    Door [] doors;
+    Box[] boxes;
+    Wire[] power;
+    Button[] buttons;
+    WeightedButton[] weightedButtons;
+    Transmitter[] transmitters;
+    Receiver[] receivers;
+    Door[] doors;
     Star star;
-    ArrayList <ScreenLaser> screenLasers = new ArrayList <>();
+    ArrayList<ScreenLaser> screenLasers = new ArrayList<>();
     boolean win;
 
     Image image;
@@ -64,15 +57,15 @@ class Level {
         g2d.drawRect(912, 12, 88, 88);
         g2d.drawImage(Images.menuIcon, 924, 24, Game.panel);
         g2d.drawImage(image, adjustX, adjustY, Game.panel);
-        for (Wire wire: power) {
+        for (Wire wire : power) {
             if (wire.isPowered) {
                 wire.draw(g2d);
             }
         }
-        for (WeightedButton weightedButton: weightedButtons) {
+        for (WeightedButton weightedButton : weightedButtons) {
             weightedButton.draw(g2d);
         }
-        for (Button button: buttons) {
+        for (Button button : buttons) {
             button.draw(g2d);
         }
         if (star != null) {
@@ -81,9 +74,9 @@ class Level {
             }
         }
         g2d.setStroke(new BasicStroke(4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        HashSet <List<Integer>> blueSet = new HashSet <>();
-        HashSet <List<Integer>> redSet = new HashSet <>();
-        for (ScreenLaser screenLaser: screenLasers) {
+        HashSet<List<Integer>> blueSet = new HashSet<>();
+        HashSet<List<Integer>> redSet = new HashSet<>();
+        for (ScreenLaser screenLaser : screenLasers) {
             if (screenLaser.colour == 'B') {
                 if (redSet.contains(screenLaser.startAndEnd) || redSet.contains(screenLaser.endAndStart)) {
                     g2d.setColor(Color.MAGENTA);
@@ -104,7 +97,7 @@ class Level {
             g2d.draw(screenLaser.line);
         }
         screenLasers.clear();
-        for (Receiver receiver: receivers) {
+        for (Receiver receiver : receivers) {
             if (receiver.isOn) {
                 receiver.image = Images.receiversOn[receiver.directionImage];
             } else {
@@ -114,26 +107,28 @@ class Level {
             receiver.isOn = false;
         }
         player.draw(g2d);
-        for (Box box: boxes) {
+        for (Box box : boxes) {
             box.draw(g2d);
         }
-        for (Door door: doors) {
+        for (Door door : doors) {
             door.draw(g2d);
         }
     }
+
     void process() {
         if (win) {
             return;
         }
-        int [] oldLocation = player.location.clone();
+        int[] oldLocation = player.location.clone();
         player.movement();
         updatePower();
         if (oldLocation[0] != player.location[0] || oldLocation[1] != player.location[1]) {
             Level copy = this.copy();
             Game.stack.addLast(copy.copy());
         }
-        
+
     }
+
     void updatePower() {
         resetPower();
         checkWeightedButton();
@@ -141,55 +136,63 @@ class Level {
         checkLasers();
         updateDoors();
     }
+
     void resetPower() {
-        for (Wire wire: power) {
+        for (Wire wire : power) {
             wire.isPowered = false;
         }
     }
+
     void checkWeightedButton() {
-        for (WeightedButton weightedButton: weightedButtons) {
+        for (WeightedButton weightedButton : weightedButtons) {
             weightedButton.updatePower();
         }
     }
+
     void checkButtons() {
-        for (Button button: buttons) {
+        for (Button button : buttons) {
             button.updatePower();
         }
     }
-    void updateDoors () {
-        for (Door door: doors) {
+
+    void updateDoors() {
+        for (Door door : doors) {
             door.update();
         }
     }
-    void checkLasers () {
-        Queue <Laser> lasers = new LinkedList<>();
+
+    void checkLasers() {
+        Queue<Laser> lasers = new LinkedList<>();
         updateTransmitterLasers(lasers);
-        updateConnecterLasers(lasers);
+        updateConnectorLasers(lasers);
     }
-    void updateTransmitterLasers(Queue <Laser> lasers) {
-        for (Transmitter transmitter: transmitters) {
+
+    void updateTransmitterLasers(Queue<Laser> lasers) {
+        for (Transmitter transmitter : transmitters) {
             transmitter.newLaser();
             screenLasers.add(new ScreenLaser(transmitter.screenLocation, transmitter.laser.shootTransmitterLaser(lasers), transmitter.colour));
         }
     }
-    void updateConnecterLasers(Queue <Laser> lasers) {
+
+    void updateConnectorLasers(Queue<Laser> lasers) {
         while (!lasers.isEmpty()) {
             for (int i = 0; i < lasers.size(); i++) {
                 Laser laser = lasers.poll();
-                List <int[]> temp = laser.shootConnecterLaser(lasers);
-                for (int j = 0; j < temp.size(); j++) {
-                    screenLasers.add(new ScreenLaser(new int [] {laser.location[0] * 32 + 48, laser.location[1] * 32 + 48}, temp.get(j), laser.colour));
+                List<int[]> temp = laser.shootConnecterLaser(lasers);
+                for (int[] ints : temp) {
+                    screenLasers.add(new ScreenLaser(new int[]{laser.location[0] * 32 + 48, laser.location[1] * 32 + 48}, ints, laser.colour));
                 }
             }
         }
     }
+
     void keyPressed(KeyEvent e) {
         if (win) {
             return;
         }
         int key = e.getKeyCode();
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
-            if (player.location [0] * 32 + 32 == player.screenLocation [0]) {
+            if (player.location[0] * 32 + 32 == player.screenLocation[0]) {
                 player.direction = 'w';
                 player.moving = true;
             } else {
@@ -197,7 +200,7 @@ class Level {
             }
         }
         if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) {
-            if (player.location [1] * 32 + 32 == player.screenLocation [1]) {
+            if (player.location[1] * 32 + 32 == player.screenLocation[1]) {
                 player.direction = 'a';
                 player.moving = true;
             } else {
@@ -205,7 +208,7 @@ class Level {
             }
         }
         if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) {
-            if (player.location [0] * 32 + 32 == player.screenLocation [0]) {
+            if (player.location[0] * 32 + 32 == player.screenLocation[0]) {
                 player.direction = 's';
                 player.moving = true;
             } else {
@@ -213,9 +216,9 @@ class Level {
             }
         }
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
-            if (player.location [1] * 32 + 32 == player.screenLocation [1]) {
+            if (player.location[1] * 32 + 32 == player.screenLocation[1]) {
                 player.direction = 'd';
-                player.moving = true;     
+                player.moving = true;
             } else {
                 player.nextDirection = 'd';
             }
@@ -224,6 +227,7 @@ class Level {
             undoMove();
         }
     }
+
     void keyReleased(KeyEvent e) {
         if (win) {
             return;
@@ -245,7 +249,7 @@ class Level {
             player.moving = false;
             if (player.nextDirection == 's') {
                 player.nextDirection = '_';
-            }            
+            }
         }
         if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) {
             player.moving = false;
@@ -254,90 +258,99 @@ class Level {
             }
         }
     }
+
     void mouseClicked(MouseEvent e) {
-        if (win) { 
+        if (win) {
             if (292 < e.getX() && e.getX() < 388 && 520 < e.getY() && e.getY() < 616) {
                 try {
                     Thread.sleep(50);
-                } catch (Exception exception) {}
-                Game.gameState = 0; 
+                } catch (Exception ignored) {
+                }
+                Game.gameState = 0;
             } else if (456 < e.getX() && e.getX() < 552 && 520 < e.getY() && e.getY() < 616) {
                 try {
                     Thread.sleep(50);
-                } catch (Exception exception) {}
+                } catch (Exception ignored) {
+                }
                 Game.loadLevel();
             } else if (num != 24 && 620 < e.getX() && e.getX() < 716 && 520 < e.getY() && e.getY() < 616) {
                 try {
                     Thread.sleep(50);
-                } catch (Exception exception) {}
-                Game.gameState ++;
+                } catch (Exception ignored) {
+                }
+                Game.gameState++;
                 Game.loadLevel();
             }
         } else {
             if (908 < e.getX() && e.getX() < 1004 && 8 < e.getY() && e.getY() < 104) {
                 try {
                     Thread.sleep(50);
-                } catch (Exception exception) {}
-                Game.gameState = 0; 
+                } catch (Exception ignored) {
+                }
+                Game.gameState = 0;
             } else if (804 < e.getX() && e.getX() < 900 && 8 < e.getY() && e.getY() < 104) {
                 Game.loaded = false;
                 try {
                     Thread.sleep(50);
-                } catch (Exception exception) {}
+                } catch (Exception ignored) {
+                }
                 Game.loadLevel();
             }
         }
     }
+
     void undoMove() {
         if (Game.stack.size() < 2) {
             return;
         }
         Game.stack.pollLast();
+        assert Game.stack.peekLast() != null;
         Level copy = Game.stack.peekLast().copy();
         if (copy.player.box != null) {
-            for (Box box: copy.boxes) {
+            for (Box box : copy.boxes) {
                 if (Arrays.equals(box.location, copy.player.box.location)) {
                     switch (copy.player.box.direction) {
-                        case 'w':
-                            box.location [1] --;
-                            box.screenLocation [1] -= 32;
-                            break;
-                        case 'a':
-                            box.location [0] --;
-                            box.screenLocation [0] -= 32;
-                            break;
-                        case 's':
-                            box.location [1] ++;
-                            box.screenLocation [1] += 32;
-                            break;
-                        case 'd':
-                            box.location [0] ++; 
-                            box.screenLocation [0] += 32;
-                            break;
+                        case 'w' -> {
+                            box.location[1]--;
+                            box.screenLocation[1] -= 32;
+                        }
+                        case 'a' -> {
+                            box.location[0]--;
+                            box.screenLocation[0] -= 32;
+                        }
+                        case 's' -> {
+                            box.location[1]++;
+                            box.screenLocation[1] += 32;
+                        }
+                        case 'd' -> {
+                            box.location[0]++;
+                            box.screenLocation[0] += 32;
+                        }
                     }
-                    copy.grid[box.location [1]][box.location [0]] = copy.player.box.tileValue;
+                    copy.grid[box.location[1]][box.location[0]] = copy.player.box.tileValue;
                 }
             }
         }
         Game.level = copy;
     }
+
     Level copy() {
         Level copy = new Level();
         copy.num = num;
         copy.name = name;
-        copy.grid = new int [grid.length][];
+        copy.grid = new int[grid.length][];
         for (int i = 0; i < grid.length; i++) {
             copy.grid[i] = grid[i].clone();
         }
         copy.player = new Player(player.location.clone());
         if (player.box != null) {
-            copy.player.box = new Box (player.box.location.clone());
+            copy.player.box = new Box(player.box.location.clone());
             copy.player.box.tileValue = player.box.tileValue;
             copy.player.box.direction = player.box.direction;
         }
         copy.boxes = new Box[boxes.length];
         for (int i = 0; i < boxes.length; i++) {
-            copy.boxes[i] = new Box (boxes[i].location.clone()); 
+            copy.boxes[i] = new Box(boxes[i].location.clone());
             copy.boxes[i].tileValue = boxes[i].tileValue;
             copy.boxes[i].image = boxes[i].image;
         }
@@ -359,10 +372,12 @@ class Level {
         copy.adjustY = adjustY;
         return copy;
     }
-    void setGridTileValue (int [] location, int tileValue) {
-        grid [location [1]][location [0]] = tileValue;
+
+    void setGridTileValue(int[] location, int tileValue) {
+        grid[location[1]][location[0]] = tileValue;
     }
+
     void setPowerValueOn(int powerNum) {
-        power [powerNum].isPowered = true;
+        power[powerNum].isPowered = true;
     }
 }
