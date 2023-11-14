@@ -18,7 +18,7 @@ class Player extends Box {
             push();
         }
         if ((canMove() && moving) || !(screenEqualsGridLocationX() && screenEqualsGridLocationY())) {
-            gridMove();
+            screenMove();
         } else if (nextDirection != '_') {
             direction = nextDirection;
             nextDirection = '_';
@@ -29,18 +29,18 @@ class Player extends Box {
             if (isWin(temp)) {
                 win = true;
             } else if (isStar(temp)) {
-                Game.level.star.collected = true;
-                switch (Game.level.num) {
-                    case 11 -> Game.menu.starsCollected[0] = true;
-                    case 16 -> Game.menu.starsCollected[1] = true;
-                    case 21 -> Game.menu.starsCollected[2] = true;
+                Game.getInstance().level.star.collected = true;
+                switch (Game.getInstance().level.num) {
+                    case 11 -> Game.getInstance().menu.starsCollected[0] = true;
+                    case 16 -> Game.getInstance().menu.starsCollected[1] = true;
+                    case 21 -> Game.getInstance().menu.starsCollected[2] = true;
                 }
                 try {
                     Thread.sleep(200);
                 } catch (Exception ignored) {
                 }
             } else if (isBox(temp)) {
-                for (Box box : Game.level.boxes) {
+                for (Box box : Game.getInstance().level.boxes) {
                     if (Arrays.equals(box.location, movementLocation())) {
                         box.direction = direction;
                         this.box = box;
@@ -56,12 +56,12 @@ class Player extends Box {
                     Thread.sleep(100);
                 } catch (Exception ignored) {
                 }
-                Game.level.win = true;
+                Game.getInstance().level.win = true;
             }
         }
     }
 
-    boolean canMove() {
+    private boolean canMove() {
         int temp = getTileValue(movementLocation());
         if (isWall(temp)) {
             return false;
@@ -72,7 +72,7 @@ class Player extends Box {
         return true;
     }
 
-    boolean isMove() {
+    private boolean isMove() {
         return switch (direction) {
             case 'w' -> getScreenLocationY() - 16 >= screenLocation[1];
             case 'a' -> getScreenLocationX() - 16 >= screenLocation[0];
@@ -82,26 +82,26 @@ class Player extends Box {
         };
     }
 
-    void gridMove() {
+    private void screenMove() {
         switch (direction) {
-            case 'w' -> screenLocation[1] -= speed;
-            case 'a' -> screenLocation[0] -= speed;
-            case 's' -> screenLocation[1] += speed;
-            case 'd' -> screenLocation[0] += speed;
+            case 'a' -> screenLocation[0] -= SPEED;
+            case 's' -> screenLocation[1] += SPEED;
+            case 'd' -> screenLocation[0] += SPEED;
+            case 'w' -> screenLocation[1] -= SPEED;
         }
     }
 
-    void move() {
-        Game.level.setGridTileValue(location, 0);
+    private void move() {
+        Game.getInstance().level.setGridTileValue(location, 0);
         updateLocation();
-        Game.level.setGridTileValue(location, tileValue);
+        Game.getInstance().level.setGridTileValue(location, tileValue);
     }
 
-    void push() {
+    private void push() {
         box.movement();
     }
 
-    int[] movementLocation() {
+    private int[] movementLocation() {
         int[] tempLocation = location.clone();
         switch (direction) {
             case 'w' -> tempLocation[1]--;
@@ -112,7 +112,7 @@ class Player extends Box {
         return new int[]{tempLocation[0], tempLocation[1]};
     }
 
-    int[] boxMovementLocation() {
+    private int[] boxMovementLocation() {
         int[] tempLocation = location.clone();
         switch (direction) {
             case 'w' -> tempLocation[1] -= 2;
@@ -123,7 +123,7 @@ class Player extends Box {
         return new int[]{tempLocation[0], tempLocation[1]};
     }
 
-    void updateLocation() {
+    private void updateLocation() {
         location = movementLocation();
     }
 }

@@ -8,7 +8,7 @@ class Button extends GameObject {
 
     void updatePower() {
         if (isBox(getTileValue())) {
-            Game.level.setPowerValueOn(powerValue);
+            Game.getInstance().level.setPowerValueOn(powerValue);
             image = Images.buttonOn;
         } else {
             image = Images.buttonOff;

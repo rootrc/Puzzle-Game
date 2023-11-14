@@ -39,11 +39,11 @@ class GameObject {
     }
 
     static int getTileValue(int[] location) {
-        return Game.level.grid[location[1]][location[0]];
+        return Game.getInstance().level.grid[location[1]][location[0]];
     }
 
     int getTileValue() {
-        return Game.level.grid[location[1]][location[0]];
+        return Game.getInstance().level.grid[location[1]][location[0]];
     }
 
     int getScreenLocationX() {
@@ -59,6 +59,6 @@ class GameObject {
     }
 
     void draw(Graphics2D g2d) {
-        g2d.drawImage(image, screenLocation[0] + Game.level.adjustX, screenLocation[1] + Game.level.adjustY, Game.panel);
+        g2d.drawImage(image, screenLocation[0] + Game.getInstance().level.adjustX, screenLocation[1] + Game.getInstance().level.adjustY, Game.getInstance().panel);
     }
 }

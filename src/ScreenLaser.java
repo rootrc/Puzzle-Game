@@ -9,7 +9,7 @@ class ScreenLaser {
     List<Integer> endAndStart;
 
     ScreenLaser(int[] start, int[] end, char colour) {
-        this.line = new Line2D.Float(start[0] + Game.level.adjustX, start[1] + Game.level.adjustY, end[0] + Game.level.adjustX, end[1] + Game.level.adjustY);
+        this.line = new Line2D.Float(start[0] + Game.getInstance().level.adjustX, start[1] + Game.getInstance().level.adjustY, end[0] + Game.getInstance().level.adjustX, end[1] + Game.getInstance().level.adjustY);
         this.startAndEnd = Arrays.asList(start[0], start[1], end[0], end[1]);
         this.endAndStart = Arrays.asList(end[0], end[1], start[0], start[1]);
         this.colour = colour;

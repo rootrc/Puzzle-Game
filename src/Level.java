@@ -33,12 +33,12 @@ class Level {
             g2d.setColor(Color.BLACK);
             g2d.setFont(new Font("TimesRoman", Font.BOLD, 100));
             g2d.drawRect(296, 512, 88, 88);
-            g2d.drawImage(Images.menuIcon, 308, 524, Game.panel);
+            g2d.drawImage(Images.menuIcon, 308, 524, Game.getInstance().panel);
             g2d.drawRect(460, 512, 88, 88);
-            g2d.drawImage(Images.restartIcon, 472, 524, Game.panel);
+            g2d.drawImage(Images.restartIcon, 472, 524, Game.getInstance().panel);
             if (num != 24) {
                 g2d.drawRect(624, 512, 88, 88);
-                g2d.drawImage(Images.nextIcon, 636, 524, Game.panel);
+                g2d.drawImage(Images.nextIcon, 636, 524, Game.getInstance().panel);
             }
             return;
         }
@@ -53,10 +53,10 @@ class Level {
             g2d.drawString(name, 152, 84);
         }
         g2d.drawRect(808, 12, 88, 88);
-        g2d.drawImage(Images.restartIcon, 820, 24, Game.panel);
+        g2d.drawImage(Images.restartIcon, 820, 24, Game.getInstance().panel);
         g2d.drawRect(912, 12, 88, 88);
-        g2d.drawImage(Images.menuIcon, 924, 24, Game.panel);
-        g2d.drawImage(image, adjustX, adjustY, Game.panel);
+        g2d.drawImage(Images.menuIcon, 924, 24, Game.getInstance().panel);
+        g2d.drawImage(image, adjustX, adjustY, Game.getInstance().panel);
         for (Wire wire : power) {
             if (wire.isPowered) {
                 wire.draw(g2d);
@@ -124,12 +124,12 @@ class Level {
         updatePower();
         if (oldLocation[0] != player.location[0] || oldLocation[1] != player.location[1]) {
             Level copy = this.copy();
-            Game.stack.addLast(copy.copy());
+            Game.getInstance().stack.addLast(copy.copy());
         }
 
     }
 
-    void updatePower() {
+    private void updatePower() {
         resetPower();
         checkWeightedButton();
         checkButtons();
@@ -137,44 +137,44 @@ class Level {
         updateDoors();
     }
 
-    void resetPower() {
+    private void resetPower() {
         for (Wire wire : power) {
             wire.isPowered = false;
         }
     }
 
-    void checkWeightedButton() {
+    private void checkWeightedButton() {
         for (WeightedButton weightedButton : weightedButtons) {
             weightedButton.updatePower();
         }
     }
 
-    void checkButtons() {
+    private void checkButtons() {
         for (Button button : buttons) {
             button.updatePower();
         }
     }
 
-    void updateDoors() {
+    private void updateDoors() {
         for (Door door : doors) {
             door.update();
         }
     }
 
-    void checkLasers() {
+    private void checkLasers() {
         Queue<Laser> lasers = new LinkedList<>();
         updateTransmitterLasers(lasers);
         updateConnectorLasers(lasers);
     }
 
-    void updateTransmitterLasers(Queue<Laser> lasers) {
+    private void updateTransmitterLasers(Queue<Laser> lasers) {
         for (Transmitter transmitter : transmitters) {
             transmitter.newLaser();
             screenLasers.add(new ScreenLaser(transmitter.screenLocation, transmitter.laser.shootTransmitterLaser(lasers), transmitter.colour));
         }
     }
 
-    void updateConnectorLasers(Queue<Laser> lasers) {
+    private void updateConnectorLasers(Queue<Laser> lasers) {
         while (!lasers.isEmpty()) {
             for (int i = 0; i < lasers.size(); i++) {
                 Laser laser = lasers.poll();
@@ -266,20 +266,20 @@ class Level {
                     Thread.sleep(50);
                 } catch (Exception ignored) {
                 }
-                Game.gameState = 0;
+                Game.getInstance().gameState = 0;
             } else if (456 < e.getX() && e.getX() < 552 && 520 < e.getY() && e.getY() < 616) {
                 try {
                     Thread.sleep(50);
                 } catch (Exception ignored) {
                 }
-                Game.loadLevel();
+                Game.getInstance().loadLevel();
             } else if (num != 24 && 620 < e.getX() && e.getX() < 716 && 520 < e.getY() && e.getY() < 616) {
                 try {
                     Thread.sleep(50);
                 } catch (Exception ignored) {
                 }
-                Game.gameState++;
-                Game.loadLevel();
+                Game.getInstance().gameState++;
+                Game.getInstance().loadLevel();
             }
         } else {
             if (908 < e.getX() && e.getX() < 1004 && 8 < e.getY() && e.getY() < 104) {
@@ -287,25 +287,25 @@ class Level {
                     Thread.sleep(50);
                 } catch (Exception ignored) {
                 }
-                Game.gameState = 0;
+                Game.getInstance().gameState = 0;
             } else if (804 < e.getX() && e.getX() < 900 && 8 < e.getY() && e.getY() < 104) {
-                Game.loaded = false;
+                Game.getInstance().loaded = false;
                 try {
                     Thread.sleep(50);
                 } catch (Exception ignored) {
                 }
-                Game.loadLevel();
+                Game.getInstance().loadLevel();
             }
         }
     }
 
-    void undoMove() {
-        if (Game.stack.size() < 2) {
+    private void undoMove() {
+        if (Game.getInstance().stack.size() < 2) {
             return;
         }
-        Game.stack.pollLast();
-        assert Game.stack.peekLast() != null;
-        Level copy = Game.stack.peekLast().copy();
+        Game.getInstance().stack.pollLast();
+        assert Game.getInstance().stack.peekLast() != null;
+        Level copy = Game.getInstance().stack.peekLast().copy();
         if (copy.player.box != null) {
             for (Box box : copy.boxes) {
                 if (Arrays.equals(box.location, copy.player.box.location)) {
@@ -331,7 +331,11 @@ class Level {
                 }
             }
         }
-        Game.level = copy;
+        try {
+            Thread.sleep(10);
+        } catch (Exception ignored) {
+        }
+        Game.getInstance().level = copy;
     }
 
     Level copy() {

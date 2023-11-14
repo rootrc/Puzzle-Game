@@ -1,5 +1,5 @@
 class Box extends GameObject {
-    final int speed = 4;
+    final int SPEED = 4;
     int tileValue;
     char direction;
 
@@ -18,24 +18,24 @@ class Box extends GameObject {
         gridMove();
         if (isMove()) {
             location = movementLocation(direction);
-            Game.level.setGridTileValue(location, tileValue);
+            Game.getInstance().level.setGridTileValue(location, tileValue);
         }
         if (screenEqualsGridLocationX() && screenEqualsGridLocationY()) {
-            Game.level.player.box = null;
+            Game.getInstance().level.player.box = null;
             direction = '_';
         }
     }
 
-    void gridMove() {
+    private void gridMove() {
         switch (direction) {
-            case 'w' -> screenLocation[1] -= speed;
-            case 'a' -> screenLocation[0] -= speed;
-            case 's' -> screenLocation[1] += speed;
-            case 'd' -> screenLocation[0] += speed;
+            case 'w' -> screenLocation[1] -= SPEED;
+            case 'a' -> screenLocation[0] -= SPEED;
+            case 's' -> screenLocation[1] += SPEED;
+            case 'd' -> screenLocation[0] += SPEED;
         }
     }
 
-    boolean isMove() {
+    private boolean isMove() {
         return switch (direction) {
             case 'w' -> getScreenLocationY() - 16 >= screenLocation[1];
             case 'a' -> getScreenLocationX() - 16 >= screenLocation[0];
@@ -45,7 +45,7 @@ class Box extends GameObject {
         };
     }
 
-    int[] movementLocation(char direction) {
+    private int[] movementLocation(char direction) {
         int[] tempLocation = location.clone();
         switch (direction) {
             case 'w' -> tempLocation[1] -= 1;

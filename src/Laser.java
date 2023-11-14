@@ -30,9 +30,9 @@ class Laser extends GameObject {
             } else if (isBlocking()) {
                 int[] screenLocation = new int[2];
                 if (tileValue == 3) {
-                    screenLocation = Game.level.player.screenLocation;
+                    screenLocation = Game.getInstance().level.player.screenLocation;
                 } else {
-                    for (Box box : Game.level.boxes) {
+                    for (Box box : Game.getInstance().level.boxes) {
                         if (Arrays.equals(box.location, location)) {
                             screenLocation = box.screenLocation;
                             break;
@@ -80,9 +80,9 @@ class Laser extends GameObject {
                 } else if (temp.isBlocking()) {
                     int[] screenLocation = new int[2];
                     if (temp.tileValue == 3) {
-                        screenLocation = Game.level.player.screenLocation;
+                        screenLocation = Game.getInstance().level.player.screenLocation;
                     } else {
-                        for (Box box : Game.level.boxes) {
+                        for (Box box : Game.getInstance().level.boxes) {
                             if (Arrays.equals(box.location, temp.location)) {
                                 screenLocation = box.screenLocation;
                                 break;
@@ -121,7 +121,7 @@ class Laser extends GameObject {
         return output;
     }
 
-    boolean isHit(int[] screenLocation) {
+    private boolean isHit(int[] screenLocation) {
         if (direction.equals("N") || direction.equals("S")) {
             return screenLocation[0] + 8 < location[0] * 32 + 32 + 18 && screenLocation[0] + 24 > location[0] * 32 + 32 + 14;
         } else if (direction.equals("W") || direction.equals("E")) {
@@ -131,7 +131,7 @@ class Laser extends GameObject {
         }
     }
 
-    void moveLaser() {
+    private void moveLaser() {
         switch (direction) {
             case "N" -> location[1]--;
             case "NE" -> {
@@ -156,7 +156,7 @@ class Laser extends GameObject {
         }
     }
 
-    int[] endWallLocation() {
+    private int[] endWallLocation() {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
             case "N" -> {
@@ -189,7 +189,7 @@ class Laser extends GameObject {
         return output;
     }
 
-    int[] endDoorLocation() {
+    private int[] endDoorLocation() {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
             case "N" -> {
@@ -228,7 +228,7 @@ class Laser extends GameObject {
         return output;
     }
 
-    int[] endBoxLocation(int[] screenLocation) {
+    private int[] endBoxLocation(int[] screenLocation) {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
             case "N" -> {
@@ -263,7 +263,7 @@ class Laser extends GameObject {
         return output;
     }
 
-    int[] endTransmitterLocation() {
+    private int[] endTransmitterLocation() {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
             case "N" -> {
@@ -302,12 +302,12 @@ class Laser extends GameObject {
         return output;
     }
 
-    boolean checkReceivers(boolean blocking) {
+    private boolean checkReceivers(boolean blocking) {
         boolean output = false;
-        for (Receiver receiver : Game.level.receivers) {
+        for (Receiver receiver : Game.getInstance().level.receivers) {
             if (checkReceiverHit(receiver)) {
                 if (!blocking) {
-                    Game.level.setPowerValueOn(receiver.powerValue);
+                    Game.getInstance().level.setPowerValueOn(receiver.powerValue);
                     receiver.isOn = true;
                 }
                 output = true;
@@ -316,7 +316,7 @@ class Laser extends GameObject {
         return output;
     }
 
-    char getColour(int tileValue) {
+    private char getColour(int tileValue) {
         return switch (tileValue) {
             case 6 -> 'W';
             case 7 -> 'B';
@@ -325,7 +325,7 @@ class Laser extends GameObject {
         };
     }
 
-    boolean isBlocking() {
+    private boolean isBlocking() {
         if (colour == 'B') {
             return (tileValue == 3 || tileValue == 5 || tileValue == 8);
         }
@@ -335,11 +335,11 @@ class Laser extends GameObject {
         return false;
     }
 
-    boolean checkReceiverHit(Receiver receiver) {
+    private boolean checkReceiverHit(Receiver receiver) {
         return colour == receiver.colour && Arrays.equals(location, receiver.location) && direction.contains(receiver.direction);
     }
 
-    boolean checkValidConnecter(Connecter connecter) {
+    private boolean checkValidConnecter(Connecter connecter) {
         return (connecter.colour == 'W' || colour == connecter.colour) && !encounteredConnectors.contains(Arrays.asList(connecter.location[0], connecter.location[1]));
     }
 }

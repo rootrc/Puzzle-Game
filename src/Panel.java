@@ -22,47 +22,50 @@ class Panel extends JPanel implements ActionListener {
         Toolkit.getDefaultToolkit().sync();
     }
 
-    void doDrawing(Graphics g) {
+    private void doDrawing(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        if (Game.isMenu()) {
-            Game.menu.paint(g2d);
+        // g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        // g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        // g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+        if (Game.getInstance().isMenu()) {
+            Game.getInstance().menu.paint(g2d);
         }
-        if (Game.isLevel() && Game.isLoaded()) {
-            Game.level.paint(g2d);
+        if (Game.getInstance().isLevel() && Game.getInstance().isLoaded()) {
+            Game.getInstance().level.paint(g2d);
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (Game.isLevel() && Game.isLoaded()) {
-            Game.level.process();
+        if (Game.getInstance().isLevel() && Game.getInstance().isLoaded()) {
+            Game.getInstance().level.process();
         }
         repaint();
     }
 
-    static class TKeyAdapter extends KeyAdapter {
+    class TKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if (Game.isLevel()) {
-                Game.level.keyPressed(e);
+            if (Game.getInstance().isLevel()) {
+                Game.getInstance().level.keyPressed(e);
             }
         }
 
         @Override
         public void keyReleased(KeyEvent e) {
-            if (Game.isLevel()) {
-                Game.level.keyReleased(e);
+            if (Game.getInstance().isLevel()) {
+                Game.getInstance().level.keyReleased(e);
             }
         }
     }
 
-    static class TMouseAdapter extends MouseAdapter {
+    class TMouseAdapter extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (Game.isMenu()) {
-                Game.menu.mouseClicked(e);
-            } else if (Game.isLevel()) {
-                Game.level.mouseClicked(e);
+            if (Game.getInstance().isMenu()) {
+                Game.getInstance().menu.mouseClicked(e);
+            } else if (Game.getInstance().isLevel()) {
+                Game.getInstance().level.mouseClicked(e);
             }
         }
     }

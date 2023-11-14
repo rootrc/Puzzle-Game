@@ -10,10 +10,10 @@ class WeightedButton extends GameObject {
 
     void updatePower() {
         if (isPressed) {
-            Game.level.setPowerValueOn(powerValue);
+            Game.getInstance().level.setPowerValueOn(powerValue);
         } else {
             if (isBox(getTileValue())) {
-                Game.level.setPowerValueOn(powerValue);
+                Game.getInstance().level.setPowerValueOn(powerValue);
                 isPressed = true;
                 image = Images.weightedButtonOn;
             }

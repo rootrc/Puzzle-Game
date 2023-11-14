@@ -34,18 +34,18 @@ class LevelMenu {
             }
         }
         if (starsCollected[0]) {
-            g2d.drawImage(Images.star, 724, 264, Game.panel);
+            g2d.drawImage(Images.star, 724, 264, Game.getInstance().panel);
         }
         if (starsCollected[1]) {
-            g2d.drawImage(Images.star, 596, 408, Game.panel);
+            g2d.drawImage(Images.star, 596, 408, Game.getInstance().panel);
         }
         if (starsCollected[2]) {
-            g2d.drawImage(Images.star, 468, 552, Game.panel);
+            g2d.drawImage(Images.star, 468, 552, Game.getInstance().panel);
         }
     }
 
     void mouseClicked(MouseEvent e) {
-        if (Game.gameState == 0) {
+        if (Game.getInstance().gameState == 0) {
             for (int x = 0; x < 6; x++) {
                 for (int y = 0; y < 4; y++) {
                     if (x * 128 + 136 < e.getX() && e.getX() < x * 128 + 232 && y * 128 + 164 < e.getY() && e.getY() < y * 128 + 260) {
@@ -53,8 +53,8 @@ class LevelMenu {
                             Thread.sleep(50);
                         } catch (Exception ignored) {
                         }
-                        Game.gameState = 6 * y + x + 1;
-                        Game.loadLevel();
+                        Game.getInstance().gameState = 6 * y + x + 1;
+                        Game.getInstance().loadLevel();
                     }
                 }
             }

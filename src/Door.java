@@ -43,9 +43,9 @@ class Door extends GameObject {
         image = Images.doors[getImage()][state];
     }
 
-    void open() {
+    private void open() {
         if (tileValue == 9 && state == 1) {
-            Game.level.setGridTileValue(location, 0);
+            Game.getInstance().level.setGridTileValue(location, 0);
         }
         if (state == 4) {
             state = 0;
@@ -54,9 +54,9 @@ class Door extends GameObject {
         }
     }
 
-    void close() {
+    private void close() {
         if (tileValue == 0 && state == 2) {
-            Game.level.setGridTileValue(location, 9);
+            Game.getInstance().level.setGridTileValue(location, 9);
         } else if (isBox(tileValue)) {
             state = 4;
         } else if (state == 4) {
@@ -67,7 +67,7 @@ class Door extends GameObject {
         }
     }
 
-    int getImage() {
+    private int getImage() {
         return switch (direction) {
             case 'W' -> 1;
             case 'S' -> 2;
@@ -76,8 +76,8 @@ class Door extends GameObject {
         };
     }
 
-    boolean isOn() {
-        return Game.level.power[powerValue].isPowered;
+    private boolean isOn() {
+        return Game.getInstance().level.power[powerValue].isPowered;
     }
 
 }
