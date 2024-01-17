@@ -228,16 +228,16 @@ final class LevelFactory {
         Game.getInstance().level.doors = new Door[]{new Door(new int[]{11, 3}, 0, 'N', 0), new Door(new int[]{7, 3}, 0, 'S', 1), new Door(new int[]{9, 5}, 0, 'W', 2), new Door(new int[]{7, 7}, 0, 'S', 3)};
     }
 
-    private void Level16() {
+    static void Level16() {
         Game.getInstance().level.name = "Locked";
-        Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1}, {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1}, {1, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 6, 0, 1}, {1, 0, 8, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1}, {1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 9, 1, 1}, {1, 1, 1, 1, 1, 6, 0, 1, 1, 1, 1, 0, 0, 1}, {1, 1, 0, 0, 9, 0, 0, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 0, 10, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 9, 0, 0, 1, 1}, {1, 1, 1, 1, 0, 0, 7, 3, 0, 1, 0, 0, 9, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 4, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+        Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1}, {1, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 6, 0, 1}, {1, 0, 8, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1}, {1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 9, 1, 1}, {1, 1, 0, 1, 1, 0, 6, 1, 1, 1, 1, 0, 0, 1}, {1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 0, 10, 9, 0, 1, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 9, 0, 0, 1, 1}, {1, 1, 1, 1, 0, 0, 7, 3, 0, 1, 0, 0, 9, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 4, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{7, 11});
-        Game.getInstance().level.boxes = new Box[]{new Box(new int[]{11, 3}), new Box(new int[]{2, 4}), new Box(new int[]{5, 6}), new Box(new int[]{6, 11})};
+        Game.getInstance().level.boxes = new Box[]{new Box(new int[]{11, 3}), new Box(new int[]{2, 4}), new Box(new int[]{6, 6}), new Box(new int[]{6, 11})};
         Game.getInstance().level.power = new Wire[]{new Wire(new int[]{3, 2}, 0), new Wire(new int[]{7, 3}, 1), new Wire(new int[]{9, 4}, 2), new Wire(new int[]{9, 7}, 3), new Wire(new int[]{12, 9}, 4), new Wire(new int[]{5, 9}, 5), new Wire(new int[]{0, 3}, 6)};
         Game.getInstance().level.power[2].isPowered = true;
         Game.getInstance().level.transmitters = new Transmitter[]{new Transmitter(new int[]{12, 1}, "SW", 'R'), new Transmitter(new int[]{8, 12}, "W", 'B')};
         Game.getInstance().level.receivers = new Receiver[]{new Receiver(new int[]{5, 2}, "W", 'B', 0), new Receiver(new int[]{7, 5}, "E", 'B', 1), new Receiver(new int[]{9, 4}, "S", 'R', 2), new Receiver(new int[]{10, 7}, "W", 'R', 3), new Receiver(new int[]{12, 9}, "E", 'B', 4), new Receiver(new int[]{7, 10}, "N", 'B', 5), new Receiver(new int[]{1, 3}, "W", 'R', 6)};
-        Game.getInstance().level.doors = new Door[]{new Door(new int[]{3, 3}, 0, 'N', 0), new Door(new int[]{8, 3}, 0, 'S', 1), new Door(new int[]{11, 5}, 0, 'W', 2), new Door(new int[]{9, 10}, 0, 'N', 3), new Door(new int[]{12, 11}, 0, 'E', 4), new Door(new int[]{5, 9}, 0, 'E', 5), new Door(new int[]{4, 7}, 0, 'N', 6)};
+        Game.getInstance().level.doors = new Door[]{new Door(new int[]{3, 3}, 0, 'N', 0), new Door(new int[]{8, 3}, 0, 'S', 1), new Door(new int[]{11, 5}, 0, 'W', 2), new Door(new int[]{9, 10}, 0, 'N', 3), new Door(new int[]{12, 11}, 0, 'E', 4), new Door(new int[]{5, 9}, 0, 'E', 5), new Door(new int[]{4, 8}, 0, 'N', 6)};
         Game.getInstance().level.star = new Star(new int[]{3, 8});
     }
 

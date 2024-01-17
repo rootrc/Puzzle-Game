@@ -1,18 +1,22 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JPanel;
 
-class Panel extends JPanel implements ActionListener {
-    Timer timer;
-
+class Panel extends JPanel {
     Panel() {
         super();
         addKeyListener(new TKeyAdapter());
         addMouseListener(new TMouseAdapter());
         setBackground(Color.white);
         setFocusable(true);
-        timer = new Timer(20, this);
-        timer.start();
     }
 
     @Override
@@ -27,20 +31,13 @@ class Panel extends JPanel implements ActionListener {
         // g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         // g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         // g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
-        if (Game.getInstance().isMenu()) {
+        if (Game.getInstance().isTitle()) {
+            Game.getInstance().title.paint(g2d);
+        } if (Game.getInstance().isMenu()) {
             Game.getInstance().menu.paint(g2d);
-        }
-        if (Game.getInstance().isLevel() && Game.getInstance().isLoaded()) {
+        } else if (Game.getInstance().isLevel() && Game.getInstance().isLoaded()) {
             Game.getInstance().level.paint(g2d);
         }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (Game.getInstance().isLevel() && Game.getInstance().isLoaded()) {
-            Game.getInstance().level.process();
-        }
-        repaint();
     }
 
     class TKeyAdapter extends KeyAdapter {
@@ -62,7 +59,9 @@ class Panel extends JPanel implements ActionListener {
     class TMouseAdapter extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (Game.getInstance().isMenu()) {
+            if (Game.getInstance().isTitle()) {
+                Game.getInstance().title.mouseClicked(e);
+            } else if (Game.getInstance().isMenu()) {
                 Game.getInstance().menu.mouseClicked(e);
             } else if (Game.getInstance().isLevel()) {
                 Game.getInstance().level.mouseClicked(e);

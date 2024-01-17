@@ -3,6 +3,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.*;
 
 class Level {
@@ -52,6 +53,8 @@ class Level {
         } else {
             g2d.drawString(name, 152, 84);
         }
+        g2d.drawRect(704, 12, 88, 88);
+        g2d.drawImage(Images.returnIcon, 716, 24, Game.getInstance().panel);
         g2d.drawRect(808, 12, 88, 88);
         g2d.drawImage(Images.restartIcon, 820, 24, Game.getInstance().panel);
         g2d.drawRect(912, 12, 88, 88);
@@ -74,8 +77,8 @@ class Level {
             }
         }
         g2d.setStroke(new BasicStroke(4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        HashSet<List<Integer>> blueSet = new HashSet<>();
-        HashSet<List<Integer>> redSet = new HashSet<>();
+        ConcurrentHashMap.KeySetView<List<Integer>, Boolean> blueSet = ConcurrentHashMap.newKeySet();
+        ConcurrentHashMap.KeySetView<List<Integer>, Boolean> redSet = ConcurrentHashMap.newKeySet();
         for (ScreenLaser screenLaser : screenLasers) {
             if (screenLaser.colour == 'B') {
                 if (redSet.contains(screenLaser.startAndEnd) || redSet.contains(screenLaser.endAndStart)) {
@@ -131,9 +134,9 @@ class Level {
 
     private void updatePower() {
         resetPower();
-        checkWeightedButton();
-        checkButtons();
-        checkLasers();
+        updateWeightedButtons();
+        updateButtons();
+        updateLasers();
         updateDoors();
     }
 
@@ -143,30 +146,29 @@ class Level {
         }
     }
 
-    private void checkWeightedButton() {
+    private void updateWeightedButtons() {
         for (WeightedButton weightedButton : weightedButtons) {
             weightedButton.updatePower();
         }
     }
 
-    private void checkButtons() {
+    private void updateButtons() {
         for (Button button : buttons) {
             button.updatePower();
         }
     }
 
+    private void updateLasers() {
+        Queue<Laser> lasers = new LinkedList<>();
+        updateTransmitterLasers(lasers);
+        updateConnectorLasers(lasers);
+    }
+    
     private void updateDoors() {
         for (Door door : doors) {
             door.update();
         }
     }
-
-    private void checkLasers() {
-        Queue<Laser> lasers = new LinkedList<>();
-        updateTransmitterLasers(lasers);
-        updateConnectorLasers(lasers);
-    }
-
     private void updateTransmitterLasers(Queue<Laser> lasers) {
         for (Transmitter transmitter : transmitters) {
             transmitter.newLaser();
@@ -223,9 +225,6 @@ class Level {
                 player.nextDirection = 'd';
             }
         }
-        if (key == KeyEvent.VK_BACK_SPACE) {
-            undoMove();
-        }
     }
 
     void keyReleased(KeyEvent e) {
@@ -262,39 +261,21 @@ class Level {
     void mouseClicked(MouseEvent e) {
         if (win) {
             if (292 < e.getX() && e.getX() < 388 && 520 < e.getY() && e.getY() < 616) {
-                try {
-                    Thread.sleep(50);
-                } catch (Exception ignored) {
-                }
-                Game.getInstance().gameState = 0;
+                Game.getInstance().setGameState(0);
             } else if (456 < e.getX() && e.getX() < 552 && 520 < e.getY() && e.getY() < 616) {
-                try {
-                    Thread.sleep(50);
-                } catch (Exception ignored) {
-                }
                 Game.getInstance().loadLevel();
             } else if (num != 24 && 620 < e.getX() && e.getX() < 716 && 520 < e.getY() && e.getY() < 616) {
-                try {
-                    Thread.sleep(50);
-                } catch (Exception ignored) {
-                }
                 Game.getInstance().gameState++;
                 Game.getInstance().loadLevel();
             }
         } else {
             if (908 < e.getX() && e.getX() < 1004 && 8 < e.getY() && e.getY() < 104) {
-                try {
-                    Thread.sleep(50);
-                } catch (Exception ignored) {
-                }
-                Game.getInstance().gameState = 0;
+                Game.getInstance().setGameState(0);
             } else if (804 < e.getX() && e.getX() < 900 && 8 < e.getY() && e.getY() < 104) {
                 Game.getInstance().loaded = false;
-                try {
-                    Thread.sleep(50);
-                } catch (Exception ignored) {
-                }
                 Game.getInstance().loadLevel();
+            } else if (700 < e.getX() && e.getX() < 996 && 8 < e.getY() && e.getY() < 104) {
+                undoMove();
             }
         }
     }

@@ -1,12 +1,19 @@
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.event.MouseEvent;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 
 class LevelMenu {
-    boolean[] starsCollected = new boolean[]{false, false, false};
+    boolean[] starsCollected = new boolean[] { false, false, false };
 
     void paint(Graphics2D g2d) {
         g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         g2d.setColor(Color.BLACK);
+        g2d.setFont(new Font("SansSerif", Font.PLAIN, 64));
+        g2d.drawRect(912, 12, 88, 88);
+        g2d.drawImage(Images.returnIcon, 924, 24, Game.getInstance().panel);
         g2d.setFont(new Font("SansSerif", Font.PLAIN, 100));
         g2d.drawString("LEVELS", 332, 100);
         g2d.setFont(new Font("SansSerif", Font.PLAIN, 72));
@@ -25,11 +32,14 @@ class LevelMenu {
                 String num = String.valueOf(1 + x + y * 6);
                 FontMetrics metrics = g2d.getFontMetrics(g2d.getFont());
                 if (10 <= Integer.parseInt(num) && Integer.parseInt(num) < 20) {
-                    g2d.drawString(num, x * 128 + 140 + (88 - metrics.stringWidth(num)) / 2 - 2, y * 128 + 168 + (88 - metrics.getHeight()) / 2 + metrics.getAscent());
+                    g2d.drawString(num, x * 128 + 140 + (88 - metrics.stringWidth(num)) / 2 - 2,
+                            y * 128 + 168 + (88 - metrics.getHeight()) / 2 + metrics.getAscent());
                 } else if (Integer.parseInt(num) >= 20) {
-                    g2d.drawString(num, x * 128 + 140 + (88 - metrics.stringWidth(num)) / 2 + 1, y * 128 + 168 + (88 - metrics.getHeight()) / 2 + metrics.getAscent());
+                    g2d.drawString(num, x * 128 + 140 + (88 - metrics.stringWidth(num)) / 2 + 1,
+                            y * 128 + 168 + (88 - metrics.getHeight()) / 2 + metrics.getAscent());
                 } else {
-                    g2d.drawString(num, x * 128 + 140 + (88 - metrics.stringWidth(num)) / 2, y * 128 + 168 + (88 - metrics.getHeight()) / 2 + metrics.getAscent());
+                    g2d.drawString(num, x * 128 + 140 + (88 - metrics.stringWidth(num)) / 2,
+                            y * 128 + 168 + (88 - metrics.getHeight()) / 2 + metrics.getAscent());
                 }
             }
         }
@@ -45,17 +55,15 @@ class LevelMenu {
     }
 
     void mouseClicked(MouseEvent e) {
-        if (Game.getInstance().gameState == 0) {
-            for (int x = 0; x < 6; x++) {
-                for (int y = 0; y < 4; y++) {
-                    if (x * 128 + 136 < e.getX() && e.getX() < x * 128 + 232 && y * 128 + 164 < e.getY() && e.getY() < y * 128 + 260) {
-                        try {
-                            Thread.sleep(50);
-                        } catch (Exception ignored) {
-                        }
-                        Game.getInstance().gameState = 6 * y + x + 1;
-                        Game.getInstance().loadLevel();
-                    }
+        if (908 < e.getX() && e.getX() < 1004 && 8 < e.getY() && e.getY() < 104) {
+            Game.getInstance().setGameState(-1);
+        }
+        for (int x = 0; x < 6; x++) {
+            for (int y = 0; y < 4; y++) {
+                if (x * 128 + 136 < e.getX() && e.getX() < x * 128 + 232 && y * 128 + 164 < e.getY()
+                        && e.getY() < y * 128 + 260) {
+                    Game.getInstance().setGameState(6 * y + x + 1);
+                    Game.getInstance().loadLevel();
                 }
             }
         }
