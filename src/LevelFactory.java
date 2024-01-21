@@ -63,12 +63,16 @@ final class LevelFactory {
     */
     private void Level1() {
         Game.getInstance().level.name = "WASD";
+        Game.getInstance().level.hintMessage = "Use WASD or Arrow keys to move around";
+        Game.getInstance().level.winningMessage = "Movement.";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 1, 1}, {1, 0, 0, 4, 0, 0, 1}, {1, 1, 0, 0, 0, 1, 1}, {1, 1, 0, 0, 0, 1, 1}, {1, 3, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{1, 5});
     }
 
     private void Level2() {
         Game.getInstance().level.name = "Weighted Button";
+        Game.getInstance().level.hintMessage = "It's a button. Go on it";
+        Game.getInstance().level.winningMessage = "Tis a Button";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1}, {1, 4, 0, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 9, 1, 1, 1}, {1, 0, 0, 0, 0, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 3, 1}, {1, 0, 0, 0, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{6, 5});
         Game.getInstance().level.power = new Wire[]{new Wire(new int[]{1, 3}, 0)};
@@ -78,6 +82,8 @@ final class LevelFactory {
 
     private void Level3() {
         Game.getInstance().level.name = "Box";
+        Game.getInstance().level.hintMessage = "Push the box up";
+        Game.getInstance().level.winningMessage = "Tis a box";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1}, {1, 9, 1, 1, 1, 1}, {1, 0, 0, 0, 4, 1}, {1, 0, 1, 1, 1, 1}, {1, 5, 1, 0, 0, 1}, {1, 0, 0, 0, 3, 1}, {1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{4, 5});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{1, 4})};
@@ -88,6 +94,8 @@ final class LevelFactory {
 
     private void Level4() {
         Game.getInstance().level.name = "Button";
+        Game.getInstance().level.hintMessage = "Push the box onto the button";
+        Game.getInstance().level.winningMessage = "It's like Portal";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 1, 1, 1, 4, 1}, {1, 0, 5, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 1, 1, 1, 1}, {1, 0, 0, 0, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 3, 1}, {1, 1, 0, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{6, 5});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{2, 2})};
@@ -100,6 +108,8 @@ final class LevelFactory {
 
     private void Level5() {
         Game.getInstance().level.name = "More Boxes";
+        Game.getInstance().level.hintMessage = "Push left";
+        Game.getInstance().level.winningMessage = "Hard?";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 5, 0, 1, 1, 1}, {1, 0, 5, 0, 0, 1, 1, 1}, {1, 0, 5, 5, 5, 9, 4, 1}, {1, 5, 0, 5, 0, 1, 1, 1}, {1, 0, 0, 0, 5, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{1, 3});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{3, 1}), new Box(new int[]{2, 2}), new Box(new int[]{2, 3}), new Box(new int[]{3, 3}), new Box(new int[]{4, 3}), new Box(new int[]{1, 4}), new Box(new int[]{3, 4}), new Box(new int[]{4, 5})};
@@ -110,6 +120,8 @@ final class LevelFactory {
 
     private void Level6() {
         Game.getInstance().level.name = "Big Decisions";
+        Game.getInstance().level.hintMessage = "1. The boxes starting on the buttons should be pushed off\n2. The first box you push should be the last box you push";
+        Game.getInstance().level.winningMessage = "Congrats!!!";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1}, {1, 1, 1, 4, 1, 1}, {1, 1, 1, 9, 1, 1}, {1, 1, 1, 0, 1, 1}, {1, 1, 1, 0, 1, 1}, {1, 1, 0, 0, 0, 1}, {1, 1, 5, 5, 5, 1}, {1, 1, 0, 0, 0, 1}, {1, 3, 5, 0, 5, 1}, {1, 1, 0, 1, 0, 1}, {1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{1, 8});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{2, 6}), new Box(new int[]{3, 6}), new Box(new int[]{4, 6}), new Box(new int[]{2, 8}), new Box(new int[]{4, 8})};
@@ -122,6 +134,9 @@ final class LevelFactory {
 
     private void Level7() {
         Game.getInstance().level.name = "Laser";
+        Game.getInstance().level.hintMessage = "";
+        Game.getInstance().level.hintMessage = "A box blocks lasers";
+        Game.getInstance().level.winningMessage = "Lasers";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1}, {1, 4, 0, 9, 0, 0, 1, 1}, {1, 1, 1, 1, 0, 5, 0, 1}, {1, 1, 1, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 1}, {1, 1, 0, 0, 0, 0, 1, 1}, {1, 1, 1, 1, 3, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{4, 6});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{5, 2})};
@@ -134,6 +149,9 @@ final class LevelFactory {
 
     private void Level8() {
         Game.getInstance().level.name = "Connecter";
+        Game.getInstance().level.hintMessage = "";
+        Game.getInstance().level.hintMessage = "The connecters reflect light in all directions";
+        Game.getInstance().level.winningMessage = "Eight directions!";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1}, {1, 4, 1, 1, 0, 0, 1}, {1, 9, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 1}, {1, 0, 7, 0, 0, 1, 1}, {1, 1, 3, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{2, 5});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{2, 4})};
@@ -146,6 +164,9 @@ final class LevelFactory {
 
     private void Level9() {
         Game.getInstance().level.name = "Sitting Duck";
+        Game.getInstance().level.hintMessage = "";
+        Game.getInstance().level.hintMessage = "Push boxes carefully and you're good";
+        Game.getInstance().level.winningMessage = "Eight directions!!!";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 1, 1}, {1, 1, 0, 0, 7, 0, 0, 1}, {1, 1, 0, 0, 1, 7, 0, 1}, {1, 1, 0, 0, 7, 0, 0, 1}, {1, 9, 0, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 1, 1, 0, 1}, {1, 9, 1, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1}, {1, 4, 1, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{1, 5});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{4, 2}), new Box(new int[]{5, 3}), new Box(new int[]{4, 4})};
@@ -158,6 +179,9 @@ final class LevelFactory {
 
     private void Level10() {
         Game.getInstance().level.name = "Abandonment";
+        Game.getInstance().level.hintMessage = "";
+        Game.getInstance().level.hintMessage = "There are two ways to open the leftmost door,\njuggle between them";
+        Game.getInstance().level.winningMessage = "Next one's funny";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 4, 1, 1}, {1, 1, 0, 3, 0, 1, 0, 0, 1, 1, 1, 9, 1, 1}, {1, 1, 0, 0, 0, 9, 0, 7, 0, 1, 0, 0, 1, 1}, {1, 0, 0, 7, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1}, {1, 1, 0, 0, 1, 1, 0, 0, 0, 9, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{3, 2});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{3, 4}), new Box(new int[]{7, 3})};
@@ -169,6 +193,9 @@ final class LevelFactory {
 
     private void Level11() {
         Game.getInstance().level.name = "Tripwire";
+        Game.getInstance().level.hintMessage = "";
+        Game.getInstance().level.hintMessage = "1. If the bottom door closes, it's permanent\n2. Give the light two paths down\n3. You can get the star later";
+        Game.getInstance().level.winningMessage = "Note: You can walk on wires";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 4, 1}, {1, 0, 7, 0, 0, 0, 0, 0, 1}, {1, 3, 7, 0, 0, 0, 1, 0, 1}, {1, 0, 7, 0, 0, 1, 1, 10, 1}, {1, 1, 1, 1, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{1, 3});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{2, 2}), new Box(new int[]{2, 3}), new Box(new int[]{2, 4})};
@@ -182,6 +209,9 @@ final class LevelFactory {
 
     private void Level12() {
         Game.getInstance().level.name = "Paradox";
+        Game.getInstance().level.hintMessage = "";
+        Game.getInstance().level.hintMessage = "1. Remember, you can walk through wires (black lines)\n2. The top-right laser can hit both receivers\n3. All doors are useful in some way";
+        Game.getInstance().level.winningMessage = "CONGRATS!!!!!";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1}, {1, 1, 1, 0, 0, 9, 0, 0, 1, 1, 1, 7, 0, 1, 1}, {1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1}, {1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 9, 0, 0, 1, 1}, {1, 0, 0, 7, 0, 1, 1, 1, 0, 0, 9, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1}, {1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 0, 0, 1, 9, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 1, 1, 1, 9, 9, 4, 1, 1, 1, 1}, {1, 1, 0, 7, 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{5, 10});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{11, 2}), new Box(new int[]{3, 5}), new Box(new int[]{3, 10})};
@@ -194,6 +224,9 @@ final class LevelFactory {
 
     private void Level13() {
         Game.getInstance().level.name = "Rabbit";
+        Game.getInstance().level.hintMessage = "Push the red connecter up";
+        Game.getInstance().level.hintMessage = "";
+        Game.getInstance().level.winningMessage = "It looks like a rabbit";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 1, 4, 1, 1}, {1, 1, 0, 0, 1, 0, 0, 0, 1, 9, 1, 1}, {1, 0, 0, 0, 0, 7, 0, 0, 1, 0, 0, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 9, 0, 0, 1}, {1, 1, 1, 1, 0, 0, 0, 1, 1, 8, 0, 1}, {1, 1, 1, 1, 1, 3, 1, 1, 1, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{5, 9});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{5, 5}), new Box(new int[]{9, 8})};
@@ -205,6 +238,8 @@ final class LevelFactory {
 
     private void Level14() {
         Game.getInstance().level.name = "Warehouse";
+        Game.getInstance().level.hintMessage = "The blue connecter is a red herring!";
+        Game.getInstance().level.winningMessage = "Did that trick ya?";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1}, {1, 0, 9, 8, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 1, 0, 0, 7, 1, 1, 1, 0, 0, 0, 1, 1}, {1, 1, 1, 1, 0, 1, 1, 1, 0, 8, 0, 9, 1}, {1, 0, 4, 0, 0, 0, 0, 9, 0, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{6, 2});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{3, 2}), new Box(new int[]{4, 3}), new Box(new int[]{9, 4})};
@@ -218,6 +253,8 @@ final class LevelFactory {
 
     private void Level15() {
         Game.getInstance().level.name = "One at a Time";
+        Game.getInstance().level.hintMessage = "Don't be confused, take it one step at a time";
+        Game.getInstance().level.winningMessage = "Confusing, but easy.";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1}, {1, 1, 0, 0, 6, 0, 0, 9, 0, 6, 0, 9, 4, 1}, {1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1}, {1, 1, 0, 0, 3, 0, 0, 1, 1, 0, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 9, 0, 6, 0, 1, 1, 1}, {1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{4, 5});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{4, 3}), new Box(new int[]{9, 3}), new Box(new int[]{9, 7})};
@@ -230,6 +267,8 @@ final class LevelFactory {
 
     static void Level16() {
         Game.getInstance().level.name = "Locked";
+        Game.getInstance().level.hintMessage = "Use and move around your connecters resourcefully";
+        Game.getInstance().level.winningMessage = "Did you get the star?";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1}, {1, 0, 0, 9, 0, 0, 0, 0, 9, 0, 0, 6, 0, 1}, {1, 0, 8, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1}, {1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 9, 1, 1}, {1, 1, 0, 1, 1, 0, 6, 1, 1, 1, 1, 0, 0, 1}, {1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 0, 10, 9, 0, 1, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 9, 0, 0, 1, 1}, {1, 1, 1, 1, 0, 0, 7, 3, 0, 1, 0, 0, 9, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 4, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{7, 11});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{11, 3}), new Box(new int[]{2, 4}), new Box(new int[]{6, 6}), new Box(new int[]{6, 11})};
@@ -243,6 +282,8 @@ final class LevelFactory {
 
     private void Level17() {
         Game.getInstance().level.name = "Deception";
+        Game.getInstance().level.hintMessage = "1. 2 connectors for red, 2 for blue\n2. One door should never be opened";
+        Game.getInstance().level.winningMessage = "get decepted";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1}, {1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1}, {1, 0, 6, 0, 0, 9, 0, 0, 6, 0, 1}, {1, 0, 0, 0, 0, 9, 0, 0, 0, 0, 1}, {1, 1, 0, 1, 1, 1, 1, 1, 9, 9, 1}, {1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1}, {1, 1, 0, 0, 0, 1, 1, 0, 6, 0, 1}, {1, 1, 0, 6, 0, 9, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1}, {1, 1, 0, 3, 1, 1, 1, 1, 0, 0, 1}, {1, 1, 1, 9, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{3, 10});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{2, 3}), new Box(new int[]{8, 3}), new Box(new int[]{8, 7}), new Box(new int[]{3, 8})};
@@ -255,6 +296,8 @@ final class LevelFactory {
 
     private void Level18() {
         Game.getInstance().level.name = "Laser Trivia";
+        Game.getInstance().level.hintMessage = "1. Think back to level 11\n2. Use two connecters to enable you to\n    push the third connecter right";
+        Game.getInstance().level.winningMessage = "There's another solution!";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 0, 1, 1, 9, 4, 1}, {1, 1, 1, 1, 1, 0, 0, 1, 9, 1, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1}, {1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 1, 0, 0, 6, 0, 6, 0, 6, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, {1, 1, 9, 1, 1, 0, 0, 1, 9, 1, 1}, {1, 1, 1, 1, 1, 3, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{5, 10});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{4, 6}), new Box(new int[]{6, 6}), new Box(new int[]{8, 6})};
@@ -266,6 +309,8 @@ final class LevelFactory {
 
     private void Level19() {
         Game.getInstance().level.name = "Brute Force";
+        Game.getInstance().level.hintMessage = "What happens when you push a connecter\ninto a door thats about to close?";
+        Game.getInstance().level.winningMessage = "You learned something new";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 4, 9, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 9, 1, 1}, {1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1}, {1, 3, 8, 0, 0, 1, 0, 8, 0, 1, 1}, {1, 1, 0, 0, 0, 9, 0, 0, 0, 1, 1}, {1, 1, 1, 0, 0, 9, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{1, 5});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{2, 5}), new Box(new int[]{7, 5})};
@@ -278,6 +323,8 @@ final class LevelFactory {
 
     private void Level20() {
         Game.getInstance().level.name = "Sight";
+        Game.getInstance().level.hintMessage = "A connecter and a door must occupy the same tile";
+        Game.getInstance().level.winningMessage = "and you've applied it";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 9, 1, 1, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 8, 0, 1}, {1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1}, {1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1}, {1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1}, {1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 9, 0, 0, 1}, {1, 1, 1, 1, 0, 0, 7, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 3, 0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 9, 9, 1, 1, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 6, 0, 6, 0, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{5, 10});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{9, 3}), new Box(new int[]{6, 9}), new Box(new int[]{3, 14}), new Box(new int[]{5, 14})};
@@ -289,6 +336,8 @@ final class LevelFactory {
 
     private void Level21() {
         Game.getInstance().level.name = "Obseratory";
+        Game.getInstance().level.hintMessage = "Plan ahead";
+        Game.getInstance().level.winningMessage = "Glass";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 2, 0, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 4, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1, 1, 1}, {1, 1, 9, 1, 1, 1, 1, 1, 0, 1, 1, 1, 2, 1, 2, 1, 1, 1}, {1, 1, 9, 1, 1, 1, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1}, {1, 0, 0, 1, 0, 0, 0, 0, 3, 0, 0, 1, 0, 6, 0, 0, 0, 1}, {1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1}, {1, 0, 0, 1, 0, 0, 0, 1, 2, 1, 2, 1, 2, 1, 0, 0, 0, 1}, {1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 1}, {1, 0, 0, 1, 0, 6, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1}, {1, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1}, {1, 1, 10, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 1, 0, 0, 9, 0, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{8, 7});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{13, 7}), new Box(new int[]{5, 11}), new Box(new int[]{9, 15})};
@@ -301,6 +350,8 @@ final class LevelFactory {
 
     private void Level22() {
         Game.getInstance().level.name = "Zig Zag";
+        Game.getInstance().level.hintMessage = "1. There are 2 ways to open the top door\n2. Place the right connecter in the\n    direct path of the blue laser";
+        Game.getInstance().level.winningMessage = "Pretty hard. Congrats";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 9, 0, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 2, 0, 0, 1, 1, 1}, {1, 0, 0, 0, 0, 2, 0, 0, 1, 1, 1}, {1, 0, 0, 6, 0, 2, 0, 6, 0, 0, 1}, {1, 0, 0, 0, 0, 2, 0, 0, 0, 1, 1}, {1, 0, 0, 3, 0, 2, 0, 0, 1, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1}, {1, 1, 1, 4, 9, 0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{3, 6});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{3, 4}), new Box(new int[]{7, 4})};
@@ -312,6 +363,8 @@ final class LevelFactory {
 
     private void Level23() {
         Game.getInstance().level.name = "Through Glass";
+        Game.getInstance().level.hintMessage = "1. You must retrive the first box\n2. A connecter must be used to stop a door from closing\n3. No more hints for you";
+        Game.getInstance().level.winningMessage = "Wow. Seriously.";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 4, 9, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 0, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1}, {1, 1, 1, 1, 9, 1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 1, 1}, {1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 9, 0, 0, 0, 7, 0, 0, 1, 1}, {1, 1, 0, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1}, {1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1}, {1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 9, 2, 2, 1, 1}, {1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 2, 0, 0, 6, 3, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 7, 0, 2, 0, 0, 0, 0, 0, 0, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 2, 0, 0, 0, 0, 0, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{14, 12});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{14, 6}), new Box(new int[]{13, 12}), new Box(new int[]{8, 13})};
@@ -323,6 +376,8 @@ final class LevelFactory {
 
     private void Level24() {
         Game.getInstance().level.name = "Inelegance";
+        Game.getInstance().level.hintMessage = "1. Start with something similar to level 22\n2. Two connecters must be used to blocks door\n3. Good luck, you're going to need it\n4. I spent 5 hours on this level, if you spend less, you win";
+        Game.getInstance().level.winningMessage = "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
         Game.getInstance().level.grid = new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 9, 0, 0, 0, 0, 0, 9, 0, 1, 1}, {1, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 9, 0, 0, 1}, {1, 0, 0, 8, 0, 2, 0, 0, 0, 0, 1, 1, 0, 1, 1}, {1, 1, 0, 0, 0, 2, 2, 2, 2, 2, 1, 1, 4, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 1, 9, 9, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 3, 0, 0, 2, 0, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 0, 0, 0, 1, 0, 1, 1}, {1, 1, 0, 0, 0, 2, 0, 0, 0, 6, 0, 1, 1, 1, 1}, {1, 1, 0, 6, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
         Game.getInstance().level.player = new Player(new int[]{8, 8});
         Game.getInstance().level.boxes = new Box[]{new Box(new int[]{3, 4}), new Box(new int[]{9, 10}), new Box(new int[]{3, 11})};

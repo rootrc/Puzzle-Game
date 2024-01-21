@@ -2,8 +2,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -33,7 +31,11 @@ class Panel extends JPanel {
         // g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         if (Game.getInstance().isTitle()) {
             Game.getInstance().title.paint(g2d);
-        } if (Game.getInstance().isMenu()) {
+        } else if (Game.getInstance().isRules()) {
+            Game.getInstance().rules.paint(g2d);
+        } else if (Game.getInstance().isCredits()) {
+            Game.getInstance().credits.paint(g2d);
+        } else if (Game.getInstance().isMenu()) {
             Game.getInstance().menu.paint(g2d);
         } else if (Game.getInstance().isLevel() && Game.getInstance().isLoaded()) {
             Game.getInstance().level.paint(g2d);
@@ -43,7 +45,13 @@ class Panel extends JPanel {
     class TKeyAdapter extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if (Game.getInstance().isLevel()) {
+            if (Game.getInstance().isRules()) {
+                Game.getInstance().rules.keyPressed(e);
+            } else if (Game.getInstance().isCredits()) {
+                Game.getInstance().credits.keyPressed(e);
+            } else if (Game.getInstance().isMenu()) {
+                Game.getInstance().menu.keyPressed(e);
+            } if (Game.getInstance().isLevel()) {
                 Game.getInstance().level.keyPressed(e);
             }
         }
@@ -61,6 +69,10 @@ class Panel extends JPanel {
         public void mouseClicked(MouseEvent e) {
             if (Game.getInstance().isTitle()) {
                 Game.getInstance().title.mouseClicked(e);
+            } else if (Game.getInstance().isRules()) {
+                Game.getInstance().rules.mouseClicked(e);
+            } else if (Game.getInstance().isCredits()) {
+                Game.getInstance().credits.mouseClicked(e);
             } else if (Game.getInstance().isMenu()) {
                 Game.getInstance().menu.mouseClicked(e);
             } else if (Game.getInstance().isLevel()) {

@@ -11,17 +11,21 @@ public class Game {
     JFrame frame;
     Panel panel;
     Title title;
+    Rules rules;
+    Credits credits;
     LevelMenu menu;
     Level level;
     LevelFactory levelFactory;
     Deque<Level> stack = new LinkedList<>();
-    int gameState = -1;
+    int gameState = -3;
     boolean loaded = false;
 
     private Game() {
         frame = new JFrame();
         panel = new Panel();
         title = new Title();
+        rules = new Rules();
+        credits = new Credits();
         menu = new LevelMenu();
         level = new Level();
         levelFactory = new LevelFactory();
@@ -59,6 +63,14 @@ public class Game {
 
     boolean isTitle() {
         return gameState == -1;
+    }
+
+    boolean isRules() {
+        return gameState == -2;
+    }
+
+    boolean isCredits() {
+        return gameState == -3;
     }
 
     boolean isMenu() {

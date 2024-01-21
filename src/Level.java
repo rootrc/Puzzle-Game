@@ -1,14 +1,23 @@
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 class Level {
     int num;
     String name;
+    String winningMessage;
+    String hintMessage;
 
     int[][] grid;
     Player player;
@@ -20,8 +29,10 @@ class Level {
     Receiver[] receivers;
     Door[] doors;
     Star star;
-    ArrayList<ScreenLaser> screenLasers = new ArrayList<>();
+    Queue<ScreenLaser> screenLasers = new ConcurrentLinkedQueue<>();
+
     boolean win;
+    boolean hint;
 
     Image image;
     int adjustX;
@@ -32,7 +43,13 @@ class Level {
             screenLasers.clear();
             g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             g2d.setColor(Color.BLACK);
-            g2d.setFont(new Font("TimesRoman", Font.BOLD, 100));
+            g2d.setFont(new Font("TimesRoman", Font.BOLD, 80));
+            FontMetrics metrics = g2d.getFontMetrics();
+            if (winningMessage != null) {
+                g2d.drawString(winningMessage, 502 - metrics.stringWidth(winningMessage) / 2, 120);
+            } else {
+                g2d.drawString("You puzzled", 502 - metrics.stringWidth("You puzzled") / 2, 120);
+            }
             g2d.drawRect(296, 512, 88, 88);
             g2d.drawImage(Images.menuIcon, 308, 524, Game.getInstance().panel);
             g2d.drawRect(460, 512, 88, 88);
@@ -40,6 +57,20 @@ class Level {
             if (num != 24) {
                 g2d.drawRect(624, 512, 88, 88);
                 g2d.drawImage(Images.nextIcon, 636, 524, Game.getInstance().panel);
+            }
+            return;
+        }
+        if (hint) {
+            g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+            g2d.setColor(Color.BLACK);
+            g2d.setFont(new Font("SansSerif", Font.PLAIN, 64));
+            g2d.drawRect(912, 12, 88, 88);
+            g2d.drawImage(Images.returnIcon, 924, 24, Game.getInstance().panel);
+            g2d.setFont(new Font("SansSerif", Font.PLAIN, 36));
+            int y = 200;
+            FontMetrics metrics = g2d.getFontMetrics();
+            for (String line : hintMessage.split("\n")) {
+                g2d.drawString(line, 50, y += metrics.getHeight());
             }
             return;
         }
@@ -59,6 +90,8 @@ class Level {
         g2d.drawImage(Images.restartIcon, 820, 24, Game.getInstance().panel);
         g2d.drawRect(912, 12, 88, 88);
         g2d.drawImage(Images.menuIcon, 924, 24, Game.getInstance().panel);
+        g2d.drawRect(912, 632, 88, 88);
+        g2d.drawImage(Images.hintIcon, 924, 644, Game.getInstance().panel);
         g2d.drawImage(image, adjustX, adjustY, Game.getInstance().panel);
         for (Wire wire : power) {
             if (wire.isPowered) {
@@ -77,8 +110,8 @@ class Level {
             }
         }
         g2d.setStroke(new BasicStroke(4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-        ConcurrentHashMap.KeySetView<List<Integer>, Boolean> blueSet = ConcurrentHashMap.newKeySet();
-        ConcurrentHashMap.KeySetView<List<Integer>, Boolean> redSet = ConcurrentHashMap.newKeySet();
+        HashSet<List<Integer>> blueSet = new HashSet<>();
+        HashSet<List<Integer>> redSet = new HashSet<>();
         for (ScreenLaser screenLaser : screenLasers) {
             if (screenLaser.colour == 'B') {
                 if (redSet.contains(screenLaser.startAndEnd) || redSet.contains(screenLaser.endAndStart)) {
@@ -119,7 +152,7 @@ class Level {
     }
 
     void process() {
-        if (win) {
+        if (win || hint) {
             return;
         }
         int[] oldLocation = player.location.clone();
@@ -129,7 +162,6 @@ class Level {
             Level copy = this.copy();
             Game.getInstance().stack.addLast(copy.copy());
         }
-
     }
 
     private void updatePower() {
@@ -189,10 +221,25 @@ class Level {
     }
 
     void keyPressed(KeyEvent e) {
+        int key = e.getKeyCode();
         if (win) {
+            if (key == KeyEvent.VK_BACK_SPACE) {
+                Game.getInstance().setGameState(0);
+            }
+            if (key == KeyEvent.VK_R) {
+                Game.getInstance().loadLevel();
+            }
+            if (key == KeyEvent.VK_ENTER) {
+                Game.getInstance().gameState++;
+                Game.getInstance().loadLevel();
+            }
             return;
         }
-        int key = e.getKeyCode();
+        if (hint) {
+            if (key == KeyEvent.VK_BACK_SPACE) {
+                hint = false;
+            }
+        }
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
             if (player.location[0] * 32 + 32 == player.screenLocation[0]) {
                 player.direction = 'w';
@@ -224,6 +271,19 @@ class Level {
             } else {
                 player.nextDirection = 'd';
             }
+        }
+        if (key == KeyEvent.VK_BACK_SPACE) {
+            Game.getInstance().setGameState(0);
+        }
+        if (key == KeyEvent.VK_R) {
+            Game.getInstance().loaded = false;
+            Game.getInstance().loadLevel();
+        }
+        if (key == KeyEvent.VK_U) {
+            undoMove();
+        }
+        if (key == KeyEvent.VK_H) {
+            hint = true;
         }
     }
 
@@ -268,15 +328,23 @@ class Level {
                 Game.getInstance().gameState++;
                 Game.getInstance().loadLevel();
             }
-        } else {
+            return;
+        }
+        if (hint) {
             if (908 < e.getX() && e.getX() < 1004 && 8 < e.getY() && e.getY() < 104) {
-                Game.getInstance().setGameState(0);
-            } else if (804 < e.getX() && e.getX() < 900 && 8 < e.getY() && e.getY() < 104) {
-                Game.getInstance().loaded = false;
-                Game.getInstance().loadLevel();
-            } else if (700 < e.getX() && e.getX() < 996 && 8 < e.getY() && e.getY() < 104) {
-                undoMove();
+                hint = false;
             }
+            return;
+        }
+        if (908 < e.getX() && e.getX() < 1004 && 8 < e.getY() && e.getY() < 104) {
+            Game.getInstance().setGameState(0);
+        } else if (804 < e.getX() && e.getX() < 900 && 8 < e.getY() && e.getY() < 104) {
+            Game.getInstance().loaded = false;
+            Game.getInstance().loadLevel();
+        } else if (700 < e.getX() && e.getX() < 996 && 8 < e.getY() && e.getY() < 104) {
+            undoMove();
+        }  else if (908 < e.getX() && e.getX() < 1004 && 628 < e.getY() && e.getY() < 724) {
+            hint = true;
         }
     }
 
