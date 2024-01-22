@@ -68,8 +68,8 @@ class LevelMenu {
         }
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 4; y++) {
-                if (x * 128 + 136 < e.getX() && e.getX() < x * 128 + 232 && y * 128 + 164 < e.getY()
-                        && e.getY() < y * 128 + 260) {
+                if (x * 128 + 136 < e.getX() && e.getX() < x * 128 + 232 && y * 128 + 214 < e.getY()
+                        && e.getY() < y * 128 + 310) {
                     Game.getInstance().setGameState(6 * y + x + 1);
                     Game.getInstance().loadLevel();
                 }

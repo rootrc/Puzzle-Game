@@ -1,9 +1,10 @@
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import javax.swing.JFrame;
 
 public class Game {
     final private int delay = 20;
@@ -17,10 +18,11 @@ public class Game {
     Level level;
     LevelFactory levelFactory;
     Deque<Level> stack = new LinkedList<>();
-    int gameState = -3;
+    int gameState = -1;
     boolean loaded = false;
 
     private Game() {
+        new Images();
         frame = new JFrame();
         panel = new Panel();
         title = new Title();

@@ -239,6 +239,7 @@ class Level {
             if (key == KeyEvent.VK_BACK_SPACE) {
                 hint = false;
             }
+            return;
         }
         if (key == KeyEvent.VK_W || key == KeyEvent.VK_UP) {
             if (player.location[0] * 32 + 32 == player.screenLocation[0]) {
