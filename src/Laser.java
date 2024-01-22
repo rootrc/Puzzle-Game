@@ -20,22 +20,27 @@ class Laser extends GameObject {
     void update() {
         tileValue = getTileValue();
     }
-
+    
+    // Shoots a laser from a transmitter
     int[] shootTransmitterLaser(Queue<Laser> lasers) {
+        // if direction is diagonal, skip checking own tile
         if (direction.length() == 2) {
             moveLaser();
         }
         while (true) {
             update();
+            // checks what laser hits and returns screen location
             if (isBlockingWall(tileValue)) {
                 return endWallLocation();
             } else if (isDoor(tileValue)) {
                 return endDoorLocation();
+            // if it's hitting a player, box, or different coloured receiver
             } else if (isBlocking()) {
                 int[] screenLocation = new int[2];
                 if (tileValue == 3) {
                     screenLocation = Game.getInstance().level.player.screenLocation;
                 } else {
+                    // find the box that's been hit
                     for (Box box : Game.getInstance().level.boxes) {
                         if (Arrays.equals(box.location, location)) {
                             screenLocation = box.screenLocation;
@@ -43,16 +48,23 @@ class Laser extends GameObject {
                         }
                     }
                 }
+                // checks if it's hit on the screen location
                 if (isHit(screenLocation)) {
+                    // return hit screen location
                     return endBoxLocation(screenLocation);
                 }
+            // if it's hitting a connecter
             } else if (isConnector(tileValue)) {
+                // check if it's a valid connecter
                 if (checkValidConnecter(new Connecter(location.clone(), getColour(tileValue)))) {
+                    // add it to encountered connectors to dfs can be done
                     encounteredConnectors.add(Arrays.asList(location[0], location[1]));
+                    // adds the laser to the queue
                     lasers.add(this);
                     return new int[]{location[0] * 32 + 48, location[1] * 32 + 48};
                 }
             }
+            // if it's hitting a receiver
             if (checkReceivers(false)) {
                 return endTransmitterLocation();
             }
@@ -61,9 +73,9 @@ class Laser extends GameObject {
     }
 
     @SuppressWarnings("unchecked")
+    // Shoots a laser from a connecter
     List<int[]> shootConnecterLaser(Queue<Laser> lasers) {
         List<int[]> output = new ArrayList<>();
-        /*Can optimize*/
         for (String i : new String[]{"N", "NE", "E", "SE", "S", "SW", "W", "NW"}) {
             boolean blocking = false;
             int[] blockingLocation = new int[2];
@@ -74,18 +86,22 @@ class Laser extends GameObject {
             temp.moveLaser();
             while (true) {
                 temp.update();
+                // checks what laser hits and returns screen location
                 if (isBlockingWall(temp.tileValue)) {
                     break;
                 } else if (isDoor(temp.tileValue)) {
+                    // if it hits a door, continue checking, but remember the lser is blocked
                     if (!blocking) {
                         blockingLocation = temp.endDoorLocation();
                         blocking = true;
                     }
+                // if it's hitting a player, box, or different coloured receiver
                 } else if (temp.isBlocking()) {
                     int[] screenLocation = new int[2];
                     if (temp.tileValue == 3) {
                         screenLocation = Game.getInstance().level.player.screenLocation;
                     } else {
+                        // find the box that's been hit
                         for (Box box : Game.getInstance().level.boxes) {
                             if (Arrays.equals(box.location, temp.location)) {
                                 screenLocation = box.screenLocation;
@@ -93,16 +109,22 @@ class Laser extends GameObject {
                             }
                         }
                     }
+                    // checks if it's hit on the screen location
                     if (temp.isHit(screenLocation)) {
                         if (!blocking) {
+                            // if it hits something, continue checking, but remember the lser is blocked
                             blockingLocation = temp.endBoxLocation(screenLocation);
                             blocking = true;
                         }
                     }
+                // it if hits a connecter
                 } else if (isConnector(temp.tileValue)) {
+                    // if connecter can transmit light
                     if (checkValidConnecter(new Connecter(temp.location.clone(), getColour(temp.tileValue)))) {
+                        // if laser is blocked, add visual effect
                         if (blocking) {
                             output.add(blockingLocation);
+                        // add connecter to encountered conneecters
                         } else {
                             temp.encounteredConnectors.add(Arrays.asList(temp.location[0], temp.location[1]));
                             lasers.add(temp);
@@ -111,6 +133,7 @@ class Laser extends GameObject {
                     }
                     break;
                 }
+                // if it's hitting a receiver
                 if (temp.checkReceivers(blocking)) {
                     if (blocking) {
                         output.add(blockingLocation);
@@ -125,6 +148,7 @@ class Laser extends GameObject {
         return output;
     }
 
+    // checks if laser hits a moving player or box
     private boolean isHit(int[] screenLocation) {
         if (direction.equals("N") || direction.equals("S")) {
             return screenLocation[0] + 8 < location[0] * 32 + 32 + 18 && screenLocation[0] + 24 > location[0] * 32 + 32 + 14;
@@ -135,6 +159,7 @@ class Laser extends GameObject {
         }
     }
 
+    // Moves grid location of the location being checked by the laser based on direction
     private void moveLaser() {
         switch (direction) {
             case "N" -> location[1]--;
@@ -159,7 +184,8 @@ class Laser extends GameObject {
             }
         }
     }
-
+    
+    // Adjusts the screen location of a laser hitting a wall based on direction
     private int[] endWallLocation() {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
@@ -193,6 +219,7 @@ class Laser extends GameObject {
         return output;
     }
 
+    // Adjusts the screen location of a laser hitting a door based on direction
     private int[] endDoorLocation() {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
@@ -232,6 +259,7 @@ class Laser extends GameObject {
         return output;
     }
 
+    // Adjusts the screen location of a laser hitting a box based on direction
     private int[] endBoxLocation(int[] screenLocation) {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
@@ -267,6 +295,7 @@ class Laser extends GameObject {
         return output;
     }
 
+    // Finds the screen location of the end of the transmiter laser based on grid location
     private int[] endTransmitterLocation() {
         int[] output = new int[]{location[0] * 32 + 32, location[1] * 32 + 32};
         switch (direction) {
@@ -306,15 +335,18 @@ class Laser extends GameObject {
         return output;
     }
 
+    // Check if a receiver can be hit
     private boolean checkReceivers(boolean blocking) {
         boolean output = false;
         for (Receiver receiver : Game.getInstance().level.receivers) {
             if (checkReceiverHit(receiver)) {
+                // if it's actually being hit, activate the wire connected to the receiver
                 if (!blocking) {
                     Game.getInstance().level.setPowerValueOn(receiver.powerValue);
                     receiver.isOn = true;
                 }
                 output = true;
+                break;
             }
         }
         return output;

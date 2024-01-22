@@ -9,7 +9,9 @@ import java.awt.Graphics2D;
 class LevelMenu {
     boolean[] starsCollected = new boolean[] { false, false, false };
 
+    // Draws level menu
     void paint(Graphics2D g2d) {
+        // title and background art
         g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("SansSerif", Font.PLAIN, 64));
@@ -23,6 +25,7 @@ class LevelMenu {
         g2d.drawLine(120, 390, 888, 390);
         g2d.setColor(Color.RED);
         g2d.drawLine(120, 518, 888, 518);
+        // menu buttons
         g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 4; y++) {
@@ -32,6 +35,7 @@ class LevelMenu {
                 g2d.drawRect(x * 128 + 140, y * 128 + 218, 88, 88);
                 String num = String.valueOf(1 + x + y * 6);
                 FontMetrics metrics = g2d.getFontMetrics();
+                // slightly changes placement based on number size
                 if (10 <= Integer.parseInt(num) && Integer.parseInt(num) < 20) {
                     g2d.drawString(num, x * 128 + 140 + (88 - metrics.stringWidth(num)) / 2 - 2,
                             y * 128 + 218 + (88 - metrics.getHeight()) / 2 + metrics.getAscent());
@@ -44,6 +48,7 @@ class LevelMenu {
                 }
             }
         }
+        // draw stars
         if (starsCollected[0]) {
             g2d.drawImage(Images.star, 728, 326, Game.getInstance().panel);
         }

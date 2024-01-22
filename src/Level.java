@@ -38,7 +38,49 @@ class Level {
     int adjustX;
     int adjustY;
 
+    // Manually copies every attribute to make a deep-copy (i hope) of the level
+    Level copy() {
+        Level copy = new Level();
+        copy.num = num;
+        copy.name = name;
+        copy.grid = new int[grid.length][];
+        for (int i = 0; i < grid.length; i++) {
+            copy.grid[i] = grid[i].clone();
+        }
+        copy.player = new Player(player.location.clone());
+        if (player.box != null) {
+            copy.player.box = new Box(player.box.location.clone());
+            copy.player.box.tileValue = player.box.tileValue;
+            copy.player.box.direction = player.box.direction;
+        }
+        copy.boxes = new Box[boxes.length];
+        for (int i = 0; i < boxes.length; i++) {
+            copy.boxes[i] = new Box(boxes[i].location.clone());
+            copy.boxes[i].tileValue = boxes[i].tileValue;
+            copy.boxes[i].image = boxes[i].image;
+        }
+        copy.power = power;
+        copy.buttons = buttons;
+        copy.weightedButtons = new WeightedButton[weightedButtons.length];
+        for (int i = 0; i < weightedButtons.length; i++) {
+            copy.weightedButtons[i] = new WeightedButton(weightedButtons[i].location, weightedButtons[i].powerValue);
+            copy.weightedButtons[i].isPressed = weightedButtons[i].isPressed;
+            copy.weightedButtons[i].image = weightedButtons[i].image;
+        }
+        copy.transmitters = transmitters;
+        copy.receivers = receivers;
+        copy.doors = doors;
+        copy.star = star;
+        copy.win = win;
+        copy.image = image;
+        copy.adjustX = adjustX;
+        copy.adjustY = adjustY;
+        return copy;
+    }
+
+    // Draws the level
     void paint(Graphics2D g2d) {
+        // if level is won
         if (win) {
             screenLasers.clear();
             g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
@@ -60,6 +102,7 @@ class Level {
             }
             return;
         }
+        // if looking at a hint
         if (hint) {
             g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
             g2d.setColor(Color.BLACK);
@@ -74,6 +117,7 @@ class Level {
             }
             return;
         }
+        // draw UI and text
         g2d.setStroke(new BasicStroke(8f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("SansSerif", Font.BOLD, 100));
@@ -92,7 +136,9 @@ class Level {
         g2d.drawImage(Images.menuIcon, 924, 24, Game.getInstance().panel);
         g2d.drawRect(912, 632, 88, 88);
         g2d.drawImage(Images.hintIcon, 924, 644, Game.getInstance().panel);
+        // draw level
         g2d.drawImage(image, adjustX, adjustY, Game.getInstance().panel);
+        // draw all changable elements of the level in the correct order
         for (Wire wire : power) {
             if (wire.isPowered) {
                 wire.draw(g2d);
@@ -109,11 +155,15 @@ class Level {
                 star.draw(g2d);
             }
         }
+        // draws lasers
         g2d.setStroke(new BasicStroke(4f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
+        // Lists are used so that the HashSet actually works
         HashSet<List<Integer>> blueSet = new HashSet<>();
         HashSet<List<Integer>> redSet = new HashSet<>();
         for (ScreenLaser screenLaser : screenLasers) {
+            // if laser is blue
             if (screenLaser.colour == 'B') {
+                // if there is already a laser in the same location of different colour, draw a magenta laser
                 if (redSet.contains(screenLaser.startAndEnd) || redSet.contains(screenLaser.endAndStart)) {
                     g2d.setColor(Color.MAGENTA);
                 } else {
@@ -121,7 +171,9 @@ class Level {
                 }
                 blueSet.add(screenLaser.startAndEnd);
                 blueSet.add(screenLaser.endAndStart);
+            // if laser is red
             } else if (screenLaser.colour == 'R') {
+                // if there is already a laser in the same location of different colour, draw a magenta laser
                 if (blueSet.contains(screenLaser.startAndEnd) || blueSet.contains(screenLaser.endAndStart)) {
                     g2d.setColor(Color.MAGENTA);
                 } else {
@@ -151,19 +203,25 @@ class Level {
         }
     }
 
+    // Process the level
     void process() {
+        // If level is won or looking at hint do nothing
         if (win || hint) {
             return;
         }
         int[] oldLocation = player.location.clone();
+        // runs player animation
         player.movement();
+        // updates all of the power
         updatePower();
+        // adds to copys of last games for the undo
         if (oldLocation[0] != player.location[0] || oldLocation[1] != player.location[1]) {
             Level copy = this.copy();
             Game.getInstance().stack.addLast(copy.copy());
         }
     }
 
+    // updatess the power of various elements of the level
     private void updatePower() {
         resetPower();
         updateWeightedButtons();
@@ -180,13 +238,13 @@ class Level {
 
     private void updateWeightedButtons() {
         for (WeightedButton weightedButton : weightedButtons) {
-            weightedButton.updatePower();
+            weightedButton.update();
         }
     }
 
     private void updateButtons() {
         for (Button button : buttons) {
-            button.updatePower();
+            button.update();
         }
     }
 
@@ -218,6 +276,48 @@ class Level {
                 }
             }
         }
+    }
+
+    // undos a move
+    private void undoMove() {
+        // if there's nothing to undo, do nothing
+        if (Game.getInstance().stack.size() < 2) {
+            return;
+        }
+        Game.getInstance().stack.pollLast();
+        assert Game.getInstance().stack.peekLast() != null;
+        Level copy = Game.getInstance().stack.peekLast().copy();
+        // band-aid solution for a box-pushing error
+        if (copy.player.box != null) {
+            for (Box box : copy.boxes) {
+                if (Arrays.equals(box.location, copy.player.box.location)) {
+                    switch (copy.player.box.direction) {
+                        case 'w' -> {
+                            box.location[1]--;
+                            box.screenLocation[1] -= 32;
+                        }
+                        case 'a' -> {
+                            box.location[0]--;
+                            box.screenLocation[0] -= 32;
+                        }
+                        case 's' -> {
+                            box.location[1]++;
+                            box.screenLocation[1] += 32;
+                        }
+                        case 'd' -> {
+                            box.location[0]++;
+                            box.screenLocation[0] += 32;
+                        }
+                    }
+                    copy.grid[box.location[1]][box.location[0]] = copy.player.box.tileValue;
+                }
+            }
+        }
+        try {
+            Thread.sleep(10);
+        } catch (Exception ignored) {
+        }
+        Game.getInstance().level = copy;
     }
 
     void keyPressed(KeyEvent e) {
@@ -347,84 +447,6 @@ class Level {
         }  else if (908 < e.getX() && e.getX() < 1004 && 628 < e.getY() && e.getY() < 724) {
             hint = true;
         }
-    }
-
-    private void undoMove() {
-        if (Game.getInstance().stack.size() < 2) {
-            return;
-        }
-        Game.getInstance().stack.pollLast();
-        assert Game.getInstance().stack.peekLast() != null;
-        Level copy = Game.getInstance().stack.peekLast().copy();
-        if (copy.player.box != null) {
-            for (Box box : copy.boxes) {
-                if (Arrays.equals(box.location, copy.player.box.location)) {
-                    switch (copy.player.box.direction) {
-                        case 'w' -> {
-                            box.location[1]--;
-                            box.screenLocation[1] -= 32;
-                        }
-                        case 'a' -> {
-                            box.location[0]--;
-                            box.screenLocation[0] -= 32;
-                        }
-                        case 's' -> {
-                            box.location[1]++;
-                            box.screenLocation[1] += 32;
-                        }
-                        case 'd' -> {
-                            box.location[0]++;
-                            box.screenLocation[0] += 32;
-                        }
-                    }
-                    copy.grid[box.location[1]][box.location[0]] = copy.player.box.tileValue;
-                }
-            }
-        }
-        try {
-            Thread.sleep(10);
-        } catch (Exception ignored) {
-        }
-        Game.getInstance().level = copy;
-    }
-
-    Level copy() {
-        Level copy = new Level();
-        copy.num = num;
-        copy.name = name;
-        copy.grid = new int[grid.length][];
-        for (int i = 0; i < grid.length; i++) {
-            copy.grid[i] = grid[i].clone();
-        }
-        copy.player = new Player(player.location.clone());
-        if (player.box != null) {
-            copy.player.box = new Box(player.box.location.clone());
-            copy.player.box.tileValue = player.box.tileValue;
-            copy.player.box.direction = player.box.direction;
-        }
-        copy.boxes = new Box[boxes.length];
-        for (int i = 0; i < boxes.length; i++) {
-            copy.boxes[i] = new Box(boxes[i].location.clone());
-            copy.boxes[i].tileValue = boxes[i].tileValue;
-            copy.boxes[i].image = boxes[i].image;
-        }
-        copy.power = power;
-        copy.buttons = buttons;
-        copy.weightedButtons = new WeightedButton[weightedButtons.length];
-        for (int i = 0; i < weightedButtons.length; i++) {
-            copy.weightedButtons[i] = new WeightedButton(weightedButtons[i].location, weightedButtons[i].powerValue);
-            copy.weightedButtons[i].isPressed = weightedButtons[i].isPressed;
-            copy.weightedButtons[i].image = weightedButtons[i].image;
-        }
-        copy.transmitters = transmitters;
-        copy.receivers = receivers;
-        copy.doors = doors;
-        copy.star = star;
-        copy.win = win;
-        copy.image = image;
-        copy.adjustX = adjustX;
-        copy.adjustY = adjustY;
-        return copy;
     }
 
     void setGridTileValue(int[] location, int tileValue) {

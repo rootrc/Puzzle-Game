@@ -8,7 +8,8 @@ class WeightedButton extends GameObject {
         image = Images.weightedButtonOff;
     }
 
-    void updatePower() {
+    // updates button
+    void update() {
         if (isPressed) {
             Game.getInstance().level.setPowerValueOn(powerValue);
         } else {

@@ -24,6 +24,8 @@ class Images {
 	static Image[] receiversOff = new Image[8];
 	static Image[][] doors = new Image[4][5];
 	static Image[][] wires = new Image[24][];
+
+	// load all the images
 	Images() {
 		try{
 			nextIcon = ImageIO.read(new File("Images/Next Icon.png"));

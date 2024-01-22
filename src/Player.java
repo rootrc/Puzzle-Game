@@ -13,21 +13,26 @@ class Player extends Box {
         this.image = Images.player;
     }
 
+    // moves player
     void movement() {
+        // if player has a box, push it
         if (box != null) {
             push();
         }
         if ((canMove() && moving) || !(screenEqualsGridLocationX() && screenEqualsGridLocationY())) {
             screenMove();
+        // for better movement control
         } else if (nextDirection != '_') {
             direction = nextDirection;
             nextDirection = '_';
             moving = true;
         }
-        if (isMove() && canMove()) {
+        if (isMoving() && canMove()) {
             int temp = getTileValue(movementLocation());
+            // if next location is win tile, win
             if (isWin(temp)) {
                 win = true;
+            // if next locatino is a star, collect it
             } else if (isStar(temp)) {
                 Game.getInstance().level.star.collected = true;
                 switch (Game.getInstance().level.num) {
@@ -39,6 +44,7 @@ class Player extends Box {
                     Thread.sleep(200);
                 } catch (Exception ignored) {
                 }
+            // if next location is a box, it's set to be the player's
             } else if (isBox(temp)) {
                 for (Box box : Game.getInstance().level.boxes) {
                     if (Arrays.equals(box.location, movementLocation())) {
@@ -61,6 +67,7 @@ class Player extends Box {
         }
     }
 
+    // checks if player can move
     private boolean canMove() {
         int temp = getTileValue(movementLocation());
         if (isWall(temp)) {
@@ -72,7 +79,8 @@ class Player extends Box {
         return true;
     }
 
-    private boolean isMove() {
+    // checks if should continue moving
+    private boolean isMoving() {
         return switch (direction) {
             case 'w' -> getScreenLocationY() - 16 >= screenLocation[1];
             case 'a' -> getScreenLocationX() - 16 >= screenLocation[0];
@@ -82,6 +90,7 @@ class Player extends Box {
         };
     }
 
+    // move screen location
     private void screenMove() {
         switch (direction) {
             case 'a' -> screenLocation[0] -= SPEED;

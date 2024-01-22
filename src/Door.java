@@ -13,6 +13,7 @@ class Door extends GameObject {
         this.direction = direction;
     }
 
+    // updates door
     void update() {
         tileValue = getTileValue(location);
         if (isInversed) {
@@ -43,6 +44,7 @@ class Door extends GameObject {
         image = Images.doors[getImage()][state];
     }
 
+    // door opening animation
     private void open() {
         if (tileValue == 9 && state == 1) {
             Game.getInstance().level.setGridTileValue(location, 0);
@@ -54,6 +56,7 @@ class Door extends GameObject {
         }
     }
 
+    // door closing animation
     private void close() {
         if (tileValue == 0 && state == 2) {
             Game.getInstance().level.setGridTileValue(location, 9);

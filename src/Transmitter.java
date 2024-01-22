@@ -15,7 +15,8 @@ class Transmitter extends GameObject {
     void newLaser() {
         laser = new Laser(location.clone(), direction, colour, new HashSet<>());
     }
-
+    
+    // adjust startLocation based on direction
     private int[] startLocation() {
         int[] output = screenLocation;
         switch (direction) {

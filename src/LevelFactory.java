@@ -1,5 +1,7 @@
 final class LevelFactory {
-    void setUp() {
+
+    // Crete a level
+    void run() {
         levelClear();
         Game.getInstance().level.num = Game.getInstance().gameState;
         switch (Game.getInstance().level.num) {
@@ -36,6 +38,7 @@ final class LevelFactory {
         Game.getInstance().loaded = true;
     }
 
+    // clear the level
     private void levelClear() {
         Game.getInstance().level.boxes = new Box[]{};
         Game.getInstance().level.power = new Wire[]{};
@@ -61,6 +64,7 @@ final class LevelFactory {
         * 9 - Door
         * 10 - Star
     */
+    
     private void Level1() {
         Game.getInstance().level.name = "WASD";
         Game.getInstance().level.hintMessage = "Use WASD or Arrow keys to move around";

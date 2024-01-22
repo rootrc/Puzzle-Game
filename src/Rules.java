@@ -12,6 +12,7 @@ class Rules {
         g2d.setColor(Color.BLACK);
         g2d.setFont(new Font("SansSerif", Font.PLAIN, 100));
         g2d.drawString("RULES", 330, 110);
+        
         g2d.setFont(new Font("SansSerif", Font.PLAIN, 64));
         g2d.drawRect(912, 12, 88, 88);
         g2d.drawImage(Images.returnIcon, 924, 24, Game.getInstance().panel);

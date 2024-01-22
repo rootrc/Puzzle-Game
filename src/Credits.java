@@ -22,6 +22,7 @@ class Credits {
 
             Programmer: Ian Wang
             Graphics: Ian Wang
+            Music: The Talos Principle OST 04-The Sigils Of Our Name
             Inspiration: The Talos Principle
             Play Testers: Aayan Karmali, Daniel Pu, George Zhu,\nIsabella Si, Nicholas Ng, and Zachary Grosman
             Special Thanks: Daniel Pu, docs.oracle.com, Ms. Wong

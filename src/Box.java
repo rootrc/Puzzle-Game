@@ -14,6 +14,7 @@ class Box extends GameObject {
         }
     }
 
+    // movement animation
     void movement() {
         gridMove();
         if (isMove()) {
@@ -26,6 +27,7 @@ class Box extends GameObject {
         }
     }
 
+    // moving screen location
     private void gridMove() {
         switch (direction) {
             case 'w' -> screenLocation[1] -= SPEED;
@@ -35,6 +37,7 @@ class Box extends GameObject {
         }
     }
 
+    // checks if should continue moving
     private boolean isMove() {
         return switch (direction) {
             case 'w' -> getScreenLocationY() - 16 >= screenLocation[1];
@@ -45,20 +48,23 @@ class Box extends GameObject {
         };
     }
 
-    private int[] movementLocation(char direction) {
-        int[] tempLocation = location.clone();
-        switch (direction) {
-            case 'w' -> tempLocation[1] -= 1;
-            case 'd' -> tempLocation[0] += 1;
-            case 's' -> tempLocation[1] += 1;
-            case 'a' -> tempLocation[0] -= 1;
-        }
-        return new int[]{tempLocation[0], tempLocation[1]};
-    }
-
+    
+    // checks if box is pushable
     boolean isPushable(char direction) {
         int temp = getTileValue(movementLocation(direction));
         return !(isWall(temp) || isBox(temp));
+    }
+    
+    // returns tilevalue of movement location
+    private int[] movementLocation(char direction) {
+        int[] tempLocation = location.clone();
+        switch (direction) {
+            case 'w' -> tempLocation[1]--;
+            case 'd' -> tempLocation[0]++;
+            case 's' -> tempLocation[1]++;
+            case 'a' -> tempLocation[0]--;
+        }
+        return new int[]{tempLocation[0], tempLocation[1]};
     }
 
     boolean screenEqualsGridLocationX() {
